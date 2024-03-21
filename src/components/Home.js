@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import smart_contract from '../abis/Migrations.json';
+import smart_contract from '../abis/ChemiCoin.json';
 import Web3 from 'web3';
-import logo from '../logo.png';
+import Swal from 'sweetalert2';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import Navigation from './Navbar';
 import MyCarousel from './Carousel';
@@ -61,6 +63,30 @@ class App extends Component {
     }
   }
 
+  _balanceTokensSC = async () => {
+    try {
+      console.log("Balance de tokens del Smart Contract en ejecucion...")
+      const _balanceTokensSC = await this.state.contract.methods.balanceTokensSC().call()
+      Swal.fire({
+        icon: 'info',
+        title: 'Balance de tokens del Smart Contract:',
+        width: 800,
+        padding: '3em',
+        text: `${_balanceTokensSC} tokens`,
+        backdrop: `
+          rgba(15, 238, 168, 0.2)
+          left top
+          no-repeat
+        `
+      })
+    } catch (err) {
+      this.setState({ errorMessage: err })
+    } finally {
+      this.setState({ loading: false })
+    }
+  }
+
+
   render() {
     return (
       <div>
@@ -70,25 +96,12 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                <a
-                  href="https://blockstellart.com/rutas-de-aprendizaje/blockchain/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={logo} className="App-logo" alt="" width="100%" height="80%" />
-                </a>
-                <h1>DApp (Autor: <a href="https://www.linkedin.com/in/joanamengual7/">Joan Amengual</a>)</h1>
-                <p>
-                  Edita <code>src/components/App.js</code> y guarda para recargar.
-                </p>
-                <a
+               
                   className="App-link"
                   href="https://blockstellart.com/rutas-de-aprendizaje/blockchain/"
                   target="_blank"
                   rel="noopener noreferrer"
-                >
-                  ¡APRENDE BLOCKCHAIN <u><b>AHORA! </b></u>
-                </a>
+                
               </div>
             </main>
           </div>

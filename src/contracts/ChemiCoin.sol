@@ -1,5 +1,5 @@
 
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.4;
 
 
 // SPDX-License-Identifier: MIT
@@ -11,8 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract ChemiCoin is ERC20, Ownable {
 
-    // Declara una variable para el contrato ERC20
-    IERC20 private _token;
+
     //uint256 public constant MAX_SUPPLY = 1000000 * 10**18; // Max total supply of Chemicoins
     mapping(address => uint256) public stakingBalance;
     mapping(address => uint256) public rewardsBalance;
@@ -26,7 +25,7 @@ contract ChemiCoin is ERC20, Ownable {
     // Evento para registrar la compra de tokens
     event TokensPurchased(address buyer, uint256 amount, uint256 tokensReceived);
 
-    constructor(string memory _name, string memory _symbol, address initialOwner) ERC20(_name, _symbol) Ownable(initialOwner) {
+    constructor() ERC20('PigCoin', 'PIG') {
     
         _mint(address(this), 10000 * 10**18);
     }
