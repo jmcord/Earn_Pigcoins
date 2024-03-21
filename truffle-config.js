@@ -45,6 +45,11 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
     },   
+    sepolia: {
+      host: "127.0.0.1",     // Dirección IP del nodo de Sepolia (cámbiala si es necesario)
+      port: 7545,            // Puerto de comunicación de Sepolia (ajústalo si es necesario)
+      network_id: "*",       // ID de red de Sepolia (ajústalo según la red real)
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
