@@ -30,6 +30,12 @@ contract ChemiCoin is ERC20, Ownable {
         _mint(address(this), 10000 * 10**18);
     }
 
+
+        // Visualizacion del balance de tokens ERC-20 del Smart Contract
+    function balanceTokensSC() public view returns (uint256){
+        return balanceOf(address(this));
+    }
+
     function mint(address to, uint256 amount) external onlyOwner {
         //require((totalSupply() + amount) <= MAX_SUPPLY, "Exceeds max supply");
         _mint(to, amount);
@@ -149,6 +155,7 @@ function calculateReward(address account) internal view returns (uint256) {
     function getRewardsBalance(address account) public view returns (uint256) {
         return rewardsBalance[account];
     }
+    
     receive() external payable {
         // Función de respaldo para aceptar Ether
     }
