@@ -14,6 +14,8 @@ class TokenList extends Component {
               <strong> Símbolo:</strong> {token.symbol}, 
               <strong> Dirección:</strong> {token.address}, 
               <strong> Balance:</strong> {token.balance}
+              {/* Agrega el console.log() aquí */}
+              {console.log('Dirección del token:', token.address)}
             </li>
           ))}
         </ul>
