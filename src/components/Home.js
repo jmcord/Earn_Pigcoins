@@ -45,17 +45,20 @@ class App extends Component {
     if (networkData) {
       const abi = smart_contract.abi;
       const address = networkData.address;
-      console.log('Dirección del contrato:', address); // Aquí imprimimos la dirección del contrato en la consola
       const contract = new web3.eth.Contract(abi, address);
       this.setState({ contract });
 
       const balanceTokensSC = await contract.methods.balanceTokensSC().call();
-      const tokens = [{ name: 'PigCoin', symbol: 'PIG', address, balance: balanceTokensSC }];
+      const tokens = [{ name: 'ChemiCoin', symbol: 'CHC', address, balance: balanceTokensSC }];
       this.setState({ tokens });
+
+      const userBalance = await contract.methods.balanceOf(this.state.account).call();
+      this.setState({ userBalance: userBalance }); // Actualiza el balance del usuario en el estado
     } else {
       window.alert('¡El Smart Contract no se ha desplegado en la red!')
     }
 }
+
 
   balanceTokensSC = async () => {
     try {
@@ -84,7 +87,7 @@ class App extends Component {
       const ethers = web3.utils.toWei(numTokens, 'ether');
       await this.state.contract.methods.buyTokens(numTokens).send({
         from: this.state.account,
-        value: ethers
+        value: ethers * 0.01
       });
       Swal.fire({
         icon: 'success',
