@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 
 import Navigation from './Navbar';
 import MyCarousel from './Carousel';
+import { Container } from 'react-bootstrap';
 
 class App extends Component {
 
@@ -86,6 +87,33 @@ class App extends Component {
     }
   }
 
+  _compraTokens = async (_numTokens) => {
+    try {
+      console.log("Compra de tokens en ejecucion...")
+      const web3 = window.web3
+      const ethers = web3.utils.toWei(_numTokens, 'ether')
+      await this.state.contract.methods.buyTokens(_numTokens).send({
+        from: this.state.account,
+        value: ethers*0.01
+      })
+      Swal.fire({
+        icon: 'success',
+        title: '¡Compra de tokens realizada!',
+        width: 800,
+        padding: '3em',
+        text: `Has comprado ${_numTokens} token/s por un valor de ${ethers / 10 ** 18} ether/s`,
+        backdrop: `
+          rgba(15, 238, 168, 0.2)
+          left top
+          no-repeat
+        `
+      })
+    } catch (err) {
+      this.setState({ errorMessage: err })
+    } finally {
+      this.setState({ loading: false })
+    }
+  }
 
   render() {
     return (
@@ -97,11 +125,45 @@ class App extends Component {
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
                
-                  className="App-link"
-                  href="https://blockstellart.com/rutas-de-aprendizaje/blockchain/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <h1>Gestión de los Tokens ERC-20</h1>
+                &nbsp;
+                <Container>
+                  <Row>
+                    <Col>
                 
+                   
+                      <h3> Tokens SC </h3>
+                      <form onSubmit={(event) => {
+                        event.preventDefault()
+                        this._balanceTokensSC()
+                      }} >
+                        <input type="submit"
+                          className="bbtn btn-block btn-info btn-sm"
+                          value="BALANCE DE TOKENS (SC)" />
+                      </form>
+                    </Col>
+            
+                  </Row>
+                  </Container>
+
+                  &nbsp;
+
+<h3>Compra de Tokens ERC-20</h3>
+<form onSubmit={(event) => {
+  event.preventDefault()
+  const cantidad = this._numTokens.value
+  this._compraTokens(cantidad)
+}}>
+  <input type="number"
+    className="form-control mb-1"
+    placeholder="Cantidad de tokens a comprar"
+    ref={(input) => this._numTokens = input} />
+
+  <input type="submit"
+    className="bbtn btn-block btn-primary btn-sm"
+    value="COMPRAR TOKENS" />
+</form>
+
               </div>
             </main>
           </div>
