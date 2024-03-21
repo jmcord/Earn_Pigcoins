@@ -52,7 +52,7 @@ module.exports = {
       confirmations: 5,
       timeoutBlocks: 200,
       skipDryRun: true
-    }
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
