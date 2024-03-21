@@ -1,3 +1,8 @@
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim(); // Asegúrate de tener tu frase mnemotécnica en un archivo .secret
+
+
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
@@ -45,14 +50,14 @@ module.exports = {
       //port: 7545,            // Standard Ethereum port (default: none)
       //network_id: "*",       // Any network (default: none)
     //},   
-    avax: {
-      provider: () => new HDWalletProvider(mnemonic,
-        'https://api.avax-test.network/ext/bc/C/rpc'),
-      network_id: 43113,
-      confirmations: 5,
-      timeoutBlocks: 200,
-      skipDryRun: true
-    }
+    //avax: {
+     // provider: () => new HDWalletProvider(mnemonic,
+       // 'https://api.avax-test.network/ext/bc/C/rpc'),
+      //network_id: 43113,
+      //confirmations: 5,
+      //timeoutBlocks: 200,
+      //skipDryRun: true
+    //}
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

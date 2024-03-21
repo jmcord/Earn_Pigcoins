@@ -1,4 +1,4 @@
-const TokenFarm = artifacts.require('ChemiCoin')
+const ChemiCoin = artifacts.require('ChemiCoin')
 
 module.exports = async function(callback) {
     let chemiCoin = await ChemiCoin.deployed()
