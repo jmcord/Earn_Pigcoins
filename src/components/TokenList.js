@@ -10,8 +10,8 @@ class TokenList extends Component {
         <ul>
           {tokens.map((token, index) => (
             <li key={index}>
-              <strong>Nombre:</strong> {'PigCoin'}, 
-              <strong> Símbolo:</strong> {'PIG'}, 
+              <strong>Nombre:</strong> {token.name}, 
+              <strong> Símbolo:</strong> {token.symbol}, 
               <strong> Dirección:</strong> {token.address}, 
               <strong> Balance:</strong> {token.balance}
             </li>
