@@ -6,7 +6,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@truffle/hdwallet-provider": "^2.1.15",
     "bootstrap": "^4.3.1",
-    "node": "^21.7.1",
+    "node": "20.11.1",
     "package.json": "^2.0.1",
     "react": "^18.1.0",
     "react-bootstrap": "^1.6.4",
@@ -19,8 +19,8 @@
     "web3": "^1.7.3"
   },
   "scripts": {
-    "start": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
-    "build": "SET NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
