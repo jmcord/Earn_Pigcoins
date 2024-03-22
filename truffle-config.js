@@ -50,14 +50,33 @@ module.exports = {
       //port: 7545,            // Standard Ethereum port (default: none)
       //network_id: "*",       // Any network (default: none)
     //},   
-    //avax: {
-     // provider: () => new HDWalletProvider(mnemonic,
-       // 'https://api.avax-test.network/ext/bc/C/rpc'),
-      //network_id: 43113,
-      //confirmations: 5,
-      //timeoutBlocks: 200,
-      //skipDryRun: true
-    //}
+    avax: {
+     provider: () => new HDWalletProvider(mnemonic,
+        'https://api.avax-test.network/ext/bc/C/rpc'),
+      network_id: 43113,
+      confirmations: 5,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+        // Binance Smart Chain Testnet (BSC)
+    bsc: {
+      provider: () => new HDWalletProvider(mnemonic,
+        `https://data-seed-prebsc-1-s1.binance.org:8545`),
+      network_id: 97,
+      confirmations: 1,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    // Polygon Testnet (MATIC)
+    polygon: {
+      provider: () => new HDWalletProvider(mnemonic,
+        `https://rpc-mumbai.maticvigil.com/v1/99a99d15ac2ad3b526aa97401fdbe30ee724ba38`),
+      network_id: 80001,
+      confirmations: 1,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    }
+
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
