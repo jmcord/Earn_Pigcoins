@@ -8,10 +8,10 @@ const MyFooter = () => (
           <div className='row mt-3'>
             <div className='col-md-3 col-lg-4 col-xl-3 mx-auto mb-4'>
               <h6 className='text-uppercase fw-bold mb-4'>
-                <i className='fas fa-gem me-3'></i>BlockStellart
+                <i className='fas fa-gem me-3'></i>ADA-Animal Data Analytics
               </h6>
               <p>
-              Accede a los cursos de tecnología más novedosos y destacados del mercado.
+              Accede a los análisis de datos más novedosos y destacados del mercado.
               </p>
             </div>
 
@@ -19,12 +19,12 @@ const MyFooter = () => (
               <h6 className='text-uppercase fw-bold mb-4'>Cursos</h6>
               <p>
                 <a href='https://blockstellart.com/30-2/masterclass-de-smart-contracts/' className='text-reset'>
-                  Solidity
+                  LinkedIn
                 </a>
               </p>
               <p>
                 <a href='https://blockstellart.com/30-2/metaverso/' className='text-reset'>
-                  Metaverso
+                  gitHub
                 </a>
               </p>
               <p>
