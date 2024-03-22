@@ -129,8 +129,14 @@ class App extends Component {
 
   mintTokens = async (recipient, amount) => {
     try {
-      await this.state.contract.methods.mint
-      (recipient, amount).send({ from: this.state.account });
+      const web3 = window.web3;
+      const contract = this.state.contract;
+      const accounts = await web3.eth.getAccounts();
+      const isOwner = await contract.methods.owner().call() === accounts[0]; // Verificar si la cuenta actual es propietaria
+      if (!isOwner) {
+        throw new Error('No tienes permisos para realizar esta acción.');
+      }
+      await contract.methods.mint(recipient, amount).send({ from: accounts[0] });
       Swal.fire({
         icon: 'success',
         title: '¡Minting de tokens realizado!',
