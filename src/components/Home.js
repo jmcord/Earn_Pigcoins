@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import smart_contract from '../abis/ChemiCoin.json';
+import smart_contract_abi from '../abis/ChemiCoin.json';
 import Web3 from 'web3';
 import Swal from 'sweetalert2';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 import Navigation from './Navbar';
 import MyCarousel from './Carousel';
 import TokenList from './TokenList';
 import { Container } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class App extends Component {
   state = {
@@ -26,12 +26,12 @@ class App extends Component {
 
   async loadWeb3() {
     if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
+      window.web3 = new Web3(window.ethereum);
       await window.ethereum.request({ method: 'eth_requestAccounts' });
     } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
+      window.web3 = new Web3(window.web3.currentProvider);
     } else {
-      window.alert('¡Deberías considerar usar Metamask!')
+      window.alert('¡Deberías considerar usar Metamask!');
     }
   }
 
@@ -40,10 +40,10 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     this.setState({ account: accounts[0] });
     const networkId = await web3.eth.net.getId();
-    const networkData = smart_contract.networks[networkId];
+    const networkData = smart_contract_abi.networks[networkId];
 
     if (networkData) {
-      const abi = smart_contract.abi;
+      const abi = smart_contract_abi.abi;
       const address = networkData.address;
       const contract = new web3.eth.Contract(abi, address);
       this.setState({ contract });
@@ -57,8 +57,7 @@ class App extends Component {
     } else {
       window.alert('¡El Smart Contract no se ha desplegado en la red!')
     }
-}
-
+  }
 
   balanceTokensSC = async () => {
     try {
@@ -107,9 +106,31 @@ class App extends Component {
     }
   }
 
+  stakeTokens = async (amount) => {
+    try {
+      const web3 = window.web3;
+      const contract = this.state.contract;
+      const accounts = await web3.eth.getAccounts();
+      await contract.methods.stake(amount).send({ from: accounts[0] });
+      Swal.fire({
+        icon: 'success',
+        title: '¡Stake de tokens realizado!',
+        text: `Has staked ${amount} tokens.`,
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al realizar el stake de tokens',
+        text: err.message,
+      });
+    }
+  }
+
   mintTokens = async (recipient, amount) => {
     try {
-      await this.state.contract.methods.mint(recipient, amount).send({ from: this.state.account });
+      await this.state.contract.methods.mint
+      (recipient, amount).send({ from: this.state.account });
       Swal.fire({
         icon: 'success',
         title: '¡Minting de tokens realizado!',
@@ -169,6 +190,24 @@ class App extends Component {
                     value="COMPRAR TOKENS"
                   />
                 </form>
+                <h3>Stake de Tokens</h3>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  const amount = this._stakeAmount.value;
+                  this.stakeTokens(amount);
+                }}>
+                  <input
+                    type="number"
+                    className="form-control mb-1"
+                    placeholder="Cantidad de tokens a stakear"
+                    ref={(input) => this._stakeAmount = input}
+                  />
+                  <input
+                    type="submit"
+                    className="btn btn-primary btn-sm"
+                    value="Stake Tokens"
+                  />
+                </form>
                 <h3>Mint Tokens</h3>
                 <form onSubmit={(event) => {
                   event.preventDefault();
@@ -195,8 +234,7 @@ class App extends Component {
                   />
                 </form>
                 <h3>Saldo del Usuario</h3>
-                <p>{this.state.userBalance} tokens
-                </p>
+                <p>{this.state.userBalance} tokens</p>
               </div>
             </main>
           </div>
@@ -206,6 +244,5 @@ class App extends Component {
     );
   }
 }
-export default App;
 
-                     
+export default App;

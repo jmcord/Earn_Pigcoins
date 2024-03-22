@@ -22,11 +22,6 @@ const MyFooter = () => (
                   LinkedIn
                 </a>
               </p>
-              <p>
-                <a href='https://github.com/jmcord/' className='text-reset'>
-                  gitHub
-                </a>
-              </p>
              
             </div>
             <div className='col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4'>
