@@ -199,7 +199,8 @@ class App extends Component {
                 <h3>Stake de Tokens</h3>
                 <form onSubmit={(event) => {
                   event.preventDefault();
-                  const amount = this._stakeAmount.value;
+                  const amount = this
+                  ._stakeAmount.value;
                   this.stakeTokens(amount);
                 }}>
                   <input
