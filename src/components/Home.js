@@ -197,59 +197,58 @@ class App extends Component {
                   />
                 </form>
                 <h3>Stake de Tokens</h3>
-                <form onSubmit={(event) => {
-                  event.preventDefault();
-                  const amount = this
-                  ._stakeAmount.value;
-                  this.stakeTokens(amount);
-                }}>
-                  <input
-                    type="number"
-                    className="form-control mb-1"
-                    placeholder="Cantidad de tokens a stakear"
-                    ref={(input) => this._stakeAmount = input}
-                  />
-                  <input
-                    type="submit"
-                    className="btn btn-primary btn-sm"
-                    value="Stake Tokens"
-                  />
-                </form>
-                <h3>Mint Tokens</h3>
-                <form onSubmit={(event) => {
-                  event.preventDefault();
-                  const recipient = this._recipient.value;
-                  const amount = this._amount.value;
-                  this.mintTokens(recipient, amount);
-                }}>
-                  <input
-                    type="text"
-                    className="form-control mb-1"
-                    placeholder="Dirección del destinatario"
-                    ref={(input) => this._recipient = input}
-                  />
-                  <input
-                    type="number"
-                    className="form-control mb-1"
-                    placeholder="Cantidad de tokens a mintear"
-                    ref={(input) => this._amount = input}
-                  />
-                  <input
-                    type="submit"
-                    className="btn btn-success btn-sm"
-                    value="Mint Tokens"
-                  />
-                </form>
-                <h3>Saldo del Usuario</h3>
-                <p>{this.state.userBalance} tokens</p>
-              </div>
-            </main>
-          </div>
-        </div>
-        <TokenList tokens={this.state.tokens} />
-      </div>
-    );
-  }
+                <form onSubmit={(event)=> {
+  event.preventDefault();
+  const amount = this._stakeAmount.value;
+  this.stakeTokens(amount);
+}}>
+  <input
+    type="number"
+    className="form-control mb-1"
+    placeholder="Cantidad de tokens a stakear"
+    ref={(input) => this._stakeAmount = input}
+  />
+  <input
+    type="submit"
+    className="btn btn-primary btn-sm"
+    value="Stake Tokens"
+  />
+</form>
+<h3>Mint Tokens</h3>
+<form onSubmit={(event) => {
+  event.preventDefault();
+  const recipient = this._recipient.value;
+  const amount = this._amount.value;
+  this.mintTokens(recipient, amount);
+}}>
+  <input
+    type="text"
+    className="form-control mb-1"
+    placeholder="Dirección del destinatario"
+    ref={(input) => this._recipient = input}
+  />
+  <input
+    type="number"
+    className="form-control mb-1"
+    placeholder="Cantidad de tokens a mintear"
+    ref={(input) => this._amount = input}
+  />
+  <input
+    type="submit"
+    className="btn btn-success btn-sm"
+    value="Mint Tokens"
+  />
+</form>
+<h3>Saldo del Usuario</h3>
+<p>{this.state.userBalance} tokens</p>
+</div>
+</main>
+</div>
+</div>
+<TokenList tokens={this.state.tokens} />
+</div>
+);
+}
 }
 
 export default App;

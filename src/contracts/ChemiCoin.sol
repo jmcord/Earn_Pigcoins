@@ -98,7 +98,7 @@ contract ChemiCoin is ERC20, Ownable {
         emit TokensPurchased(msg.sender, ethAmount, tokenAmount);
     }
 
-    function stake(uint256 amount) external {
+      function stake(uint256 amount) external {
         require(amount > 0, "Amount must be greater than 0");
         require(balanceOf(msg.sender) >= amount, "Insufficient balance");
         // Actualizar el tiempo del último stake del 'msg.sender'
