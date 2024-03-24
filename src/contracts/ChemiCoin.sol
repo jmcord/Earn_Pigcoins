@@ -136,16 +136,16 @@ function claimReward() external {
 }
 
 // Función para retirar recompensa
-function withdrawReward() external {
-    require(rewardsBalance[msg.sender] > 0, "No rewards to withdraw");
-    
-    uint256 reward = rewardsBalance[msg.sender];
+function withdrawReward() public payable {
+    require(stakingBalance[msg.sender] > 0, "No rewards to withdraw");
+    require(block.timestamp > lastRewardClaimTime[msg.sender], "No rewards to withdraw");
+    uint256 reward = calculateReward(msg.sender);
     rewardsBalance[msg.sender] = 0;
     payable(msg.sender).transfer(reward);
 }
 
-function calculateReward(address account) internal view returns (uint256) {
-    uint256 timeElapsed = block.timestamp - lastRewardClaimTime[account];
+function calculateReward(address account) public view returns (uint256) {
+    uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
     uint256 reward = (stakingBalance[account] * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
     return reward;
 }
@@ -157,8 +157,12 @@ function calculateReward(address account) internal view returns (uint256) {
 
     // Función para obtener el saldo de recompensas acumuladas de un usuario
     function getRewardsBalance(address account) public view returns (uint256) {
-        return rewardsBalance[account];
+        return calculateReward(account);
     }
+
+
+}
+
     
     receive() external payable {
         // Función de respaldo para aceptar Ether
