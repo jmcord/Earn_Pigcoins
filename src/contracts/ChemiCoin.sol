@@ -163,9 +163,4 @@ function calculateReward(address account) public view returns (uint256) {
 
 }
 
-    
-    receive() external payable {
-        // Función de respaldo para aceptar Ether
-    }
 
-}
