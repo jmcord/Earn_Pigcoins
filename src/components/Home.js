@@ -10,6 +10,8 @@ import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+const APY = 1000;
+
 class App extends Component {
   state = {
     account: '0x0',
@@ -155,6 +157,23 @@ class App extends Component {
     }
   }
 
+  calculateReward = async () => {
+    try {
+      const web3 = window.web3;
+      const contract = this.state.contract;
+      const timeElapsed = (await web3.eth.getBlock('latest')).timestamp - (await contract.methods.lastRewardClaimTime(this.state.account).call());
+      const reward = (await contract.methods.stakingBalance(this.state.account).call() * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
+      return reward;
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al calcular la recompensa',
+        text: err.message,
+      });
+    }
+  }
+
   render() {
     return (
       <div>
@@ -178,26 +197,10 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Container>
-                <h3>Compra de Tokens ERC-20</h3>
-                <form onSubmit={(event) => {
-                  event.preventDefault();
-                  const cantidad = this._numTokens.value;
-                  this.compraTokens(cantidad);
-                }}>
-                  <input
-                    type="number"
-                    className="form-control mb-1"
-                    placeholder="Cantidad de tokens a comprar"
-                    ref={(input) => this._numTokens = input}
-                  />
-                  <input
-                    type="submit"
-                    className="btn btn-primary btn-sm"
-                    value="COMPRAR TOKENS"
-                  />
-                </form>
-                <h3>Stake de Tokens</h3>
-                <form onSubmit={(event)=> {
+                <h3>
+                Stake de Tokens
+</h3>
+<form onSubmit={(event)=> {
   event.preventDefault();
   const amount = this._stakeAmount.value;
   this.stakeTokens(amount);
@@ -214,6 +217,40 @@ class App extends Component {
     value="Stake Tokens"
   />
 </form>
+<h3>Compra de Tokens ERC-20</h3>
+<form onSubmit={(event) => {
+  event.preventDefault();
+  const cantidad = this._numTokens.value;
+  this.compraTokens(cantidad);
+}}>
+  <input
+    type="number"
+    className="form-control mb-1"
+    placeholder="Cantidad de tokens a comprar"
+    ref={(input) => (this._numTokens = input)}
+  />
+  <input
+    type="submit"
+    className="btn btn-primary btn-sm"
+    value="COMPRAR TOKENS"
+  />
+</form>
+
+<h3>Calcular Recompensa</h3>
+<button
+  className="btn btn-info btn-sm"
+  onClick={async () => {
+    const reward = await this.calculateReward();
+    Swal.fire({
+      icon: 'info',
+      title: 'Recompensa Calculada',
+      text: `La recompensa estimada es de ${reward} tokens.`,
+    });
+  }}
+>
+  Calcular Recompensa
+</button>
+
 <h3>Mint Tokens</h3>
 <form onSubmit={(event) => {
   event.preventDefault();

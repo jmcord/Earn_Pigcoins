@@ -144,8 +144,8 @@ function withdrawReward() external {
     payable(msg.sender).transfer(reward);
 }
 
-function calculateReward(address account) internal view returns (uint256) {
-    uint256 timeElapsed = block.timestamp - lastRewardClaimTime[account];
+function calculateReward(address account) public view returns (uint256) {
+    uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
     uint256 reward = (stakingBalance[account] * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
     return reward;
 }
