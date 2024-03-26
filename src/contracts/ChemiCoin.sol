@@ -136,10 +136,10 @@ function claimReward() external {
 }
 
 // Función para retirar recompensa
-function withdrawReward() external {
-    require(rewardsBalance[msg.sender] > 0, "No rewards to withdraw");
-    
-    uint256 reward = rewardsBalance[msg.sender];
+function withdrawReward() public payable {
+    require(stakingBalance[msg.sender] > 0, "No rewards to withdraw");
+    require(block.timestamp > lastRewardClaimTime[msg.sender], "No rewards to withdraw");
+    uint256 reward = calculateReward(msg.sender);
     rewardsBalance[msg.sender] = 0;
     payable(msg.sender).transfer(reward);
 }

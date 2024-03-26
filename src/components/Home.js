@@ -174,6 +174,40 @@ class App extends Component {
     }
   }
 
+  withdrawReward = async () => {
+    try {
+      const web3 = window.web3;
+      const contract = this.state.contract;
+      const stakingBalance = await contract.methods.stakingBalance(this.state.account).call();
+      if (stakingBalance <= 0) {
+        throw new Error('No rewards to withdraw');
+      }
+      const lastRewardClaimTime = await contract.methods.lastRewardClaimTime(this.state.account).call();
+      const blockNumber = await web3.eth.getBlockNumber();
+      const block = await web3.eth.getBlock(blockNumber);
+      const currentTime = block.timestamp;
+      if (currentTime <= lastRewardClaimTime) {
+        throw new Error('No rewards to withdraw');
+      }
+      const reward = await this.calculateReward();
+      const rewardHex = web3.utils.toHex(Math.floor(reward)); // Convertir a hex string
+      await contract.methods.withdrawReward().send({ from: this.state.account, value: rewardHex });
+      Swal.fire({
+        icon: 'success',
+        title: '¡Retiro de recompensa exitoso!',
+        text: `Has retirado ${Math.floor(reward)} tokens como recompensa.`,
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al retirar la recompensa',
+        text: err.message,
+      });
+    }
+  }
+  
+
   render() {
     return (
       <div>
@@ -197,95 +231,101 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Container>
-                <h3>
-                Stake de Tokens
-</h3>
-<form onSubmit={(event)=> {
-  event.preventDefault();
-  const amount = this._stakeAmount.value;
-  this.stakeTokens(amount);
-}}>
-  <input
-    type="number"
-    className="form-control mb-1"
-    placeholder="Cantidad de tokens a stakear"
-    ref={(input) => this._stakeAmount = input}
-  />
-  <input
-    type="submit"
-    className="btn btn-primary btn-sm"
-    value="Stake Tokens"
-  />
-</form>
-<h3>Compra de Tokens ERC-20</h3>
-<form onSubmit={(event) => {
-  event.preventDefault();
-  const cantidad = this._numTokens.value;
-  this.compraTokens(cantidad);
-}}>
-  <input
-    type="number"
-    className="form-control mb-1"
-    placeholder="Cantidad de tokens a comprar"
-    ref={(input) => (this._numTokens = input)}
-  />
-  <input
-    type="submit"
-    className="btn btn-primary btn-sm"
-    value="COMPRAR TOKENS"
-  />
-</form>
+                <h3>Stake de Tokens</h3>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  const amount = this._stakeAmount.value;
+                  this.stakeTokens(amount);
+                }}>
+                  <input
+                    type="number"
+                    className="form-control mb-1"
+                    placeholder="Cantidad de tokens a stakear"
+                    ref={(input) => this._stakeAmount = input}
+                  />
+                  <input
+                    type="submit"
+                    className="btn btn-primary btn-sm"
+                    value="Stake Tokens"
+                  />
+                </form>
+                <h3>Compra de Tokens ERC-20</h3>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  const cantidad = this._numTokens.value;
+                  this.compraTokens(cantidad);
+                }}>
+                  <input
+                    type="number"
+                    className="form-control mb-1"
+                    placeholder="Cantidad de tokens a comprar"
+                    ref={(input) => (this._numTokens = input)}
+                  />
+                  <input
+                    type="submit"
+                    className="btn btn-primary btn-sm"
+                    value="COMPRAR TOKENS"
+                  />
+                </form>
 
-<h3>Calcular Recompensa</h3>
-<button
-  className="btn btn-info btn-sm"
-  onClick={async () => {
-    const reward = await this.calculateReward();
-    Swal.fire({
-      icon: 'info',
-      title: 'Recompensa Calculada',
-      text: `La recompensa estimada es de ${reward} tokens.`,
-    });
-  }}
->
-  Calcular Recompensa
-</button>
+                <h3>Calcular Recompensa</h3>
+                <button
+                  className="btn btn-info btn-sm"
+                  onClick={async () => {
+                    const reward = await this.calculateReward();
+                    Swal.fire({
+                      icon: 'info',
+                      title: 'Recompensa Calculada',
+                      text: `La recompensa estimada es de ${reward} tokens.`,
+                    });
+                  }}
+                >
+                  Calcular Recompensa
+                </button>
 
-<h3>Mint Tokens</h3>
-<form onSubmit={(event) => {
-  event.preventDefault();
-  const recipient = this._recipient.value;
-  const amount = this._amount.value;
-  this.mintTokens(recipient, amount);
-}}>
-  <input
-    type="text"
-    className="form-control mb-1"
-    placeholder="Dirección del destinatario"
-    ref={(input) => this._recipient = input}
-  />
-  <input
-    type="number"
-    className="form-control mb-1"
-    placeholder="Cantidad de tokens a mintear"
-    ref={(input) => this._amount = input}
-  />
-  <input
-    type="submit"
-    className="btn btn-success btn-sm"
-    value="Mint Tokens"
-  />
-</form>
-<h3>Saldo del Usuario</h3>
-<p>{this.state.userBalance} tokens</p>
-</div>
-</main>
-</div>
-</div>
-<TokenList tokens={this.state.tokens} />
-</div>
-);
-}
+                <h3>Retirar Recompensa</h3>
+                <button
+                  className="btn btn-warning btn-sm"
+                  onClick={this.withdrawReward}
+                >
+                  Retirar Recompensa
+                </button>
+
+                <h3>Mint Tokens</h3>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  const recipient = this._recipient.value;
+                  const amount = this._amount.value;
+                  this.mintTokens(recipient, amount);
+                }}>
+                  <input
+                    type="text"
+                    className="form-control mb-1"
+                    placeholder="Dirección del destinatario"
+                    ref={(input) => this._recipient = input}
+                  />
+                  <input
+                    type="number"
+                    className="form-control mb-1"
+                    placeholder="Cantidad de tokens a mintear"
+                    ref={(input) => this._amount = input}
+                  />
+                  <input
+                    type="submit"
+                    className="btn btn-success btn-sm"
+                    value="Mint Tokens"
+                  />
+                </form>
+                <h3>Saldo del Usuario</h3>
+                <p>{this.state.userBalance} tokens</p>
+              </div>
+            </main>
+          </div>
+        </div>
+        <TokenList tokens={this.state.tokens} />
+      </div>
+    );
+  }
 }
 
 export default App;
