@@ -136,13 +136,22 @@ function claimReward() external {
 }
 
 // Función para retirar recompensa
-function withdrawReward() public payable {
+function withdrawReward() external {
     require(stakingBalance[msg.sender] > 0, "No rewards to withdraw");
     require(block.timestamp > lastRewardClaimTime[msg.sender], "No rewards to withdraw");
+    
     uint256 reward = calculateReward(msg.sender);
-    rewardsBalance[msg.sender] = 0;
-    payable(msg.sender).transfer(reward);
+    rewardsBalance[msg.sender] = 0; // Establecer el balance de recompensas en cero
+    
+    // Actualizar el tiempo de la última reclamación
+    lastRewardClaimTime[msg.sender] = block.timestamp;
+    
+    // Transferir la cantidad de tokens de recompensa desde el contrato al msg.sender
+    _transfer(address(this), msg.sender, reward);
+    
+    emit RewardClaimed(msg.sender, reward);
 }
+
 
 function calculateReward(address account) public view returns (uint256) {
     uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
