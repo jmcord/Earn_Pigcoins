@@ -217,7 +217,8 @@ class App extends Component {
           <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
-                <h1>Gestión de los Tokens ERC-20</h1>
+                <h1>¡Gestiona, compra y stakea tus PigCoins!</h1>
+                <h1>¡No te quedes sin los tuyos!</h1>
                 <Container>
                   <Row>
                     <Col>
