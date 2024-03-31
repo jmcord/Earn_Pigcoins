@@ -75,7 +75,18 @@ module.exports = {
       confirmations: 1,
       timeoutBlocks: 200,
       skipDryRun: true
+    },
+    sepolia: {
+      provider: () => new HDWalletProvider(mnemonic,
+        `wss://ethereum-sepolia-rpc.publicnode.com`),
+      network_id: 11155111,
+      gas:5221975,
+      gasPrice:20000000000,
+      confirmations: 3,
+      timeoutBlocks:200,
+      skipDryRun: true
     }
+  
 
     // Another network with more advanced options...
     // advanced: {
