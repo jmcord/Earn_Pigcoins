@@ -27,7 +27,12 @@ contract ChemiCoin is ERC20, Ownable {
 
     constructor() ERC20('PigCoin', 'PIG') {
     
-        _mint(address(this), 10000 * 10**18);
+        _mint(address(this), 10000000000000);
+    }
+
+
+    function decimals() public pure override returns (uint8) {
+        return 0;
     }
 
     // Visualizacion del balance de tokens ERC-20 de un usuario
@@ -65,7 +70,7 @@ contract ChemiCoin is ERC20, Ownable {
         payable(address(this)).transfer(amount);
 
         // Transferir tokens al comprador
-        _transfer(address(this), msg.sender, tokensToBuy*10**18);
+        _transfer(address(this), msg.sender, tokensToBuy);
     }
 
     // Función para que los usuarios compren tokens
