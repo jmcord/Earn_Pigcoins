@@ -162,7 +162,7 @@ function claimReward() external {
         uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
         uint256 reward = (stakingBalance[account] * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
         rewardsBalance[msg.sender] = reward;
-        return reward;
+        return uint256(reward);
     }
 
     // Función para obtener el saldo de tokens en staking de un usuario
