@@ -254,7 +254,7 @@ class App extends Component {
                 <form onSubmit={(event) => {
                   event.preventDefault();
                   const cantidad = this._numTokens.value;
-                  this.compraTokens(cantidad);
+                  this.compraTokens(cantidad*10**18); //*10**18?
                 }}>
                   <input
                     type="number"
