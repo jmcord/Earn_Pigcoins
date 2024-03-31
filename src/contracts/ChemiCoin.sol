@@ -116,7 +116,7 @@ function unstake(uint256 amount) external {
     stakingBalance[msg.sender] -= amount;
     
     // Transferir la cantidad 'amount' de tokens desde el contrato al 'msg.sender'
-    _transfer(address(this), msg.sender, amount);
+    _transfer(address(this), msg.sender, amount*10**18);
     
     emit Unstaked(msg.sender, amount);
 }
