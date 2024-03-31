@@ -191,12 +191,13 @@ class App extends Component {
         throw new Error('No rewards to withdraw');
       }
       const reward = await this.calculateReward();
-      const rewardHex = web3.utils.toHex(Math.floor(reward)); // Convertir a hex string
+      const rewardInteger = Math.floor(reward); // Convertir la recompensa a un número entero
+      const rewardHex = web3.utils.toHex(rewardInteger); // Convertir a hex string
       await contract.methods.withdrawReward().send({ from: this.state.account, value: rewardHex });
       Swal.fire({
         icon: 'success',
         title: '¡Retiro de recompensa exitoso!',
-        text: `Has retirado ${Math.floor(reward)} tokens como recompensa.`,
+        text: `Has retirado ${rewardInteger} tokens como recompensa.`,
       });
     } catch (err) {
       console.error(err);
@@ -207,6 +208,7 @@ class App extends Component {
       });
     }
   }
+  
   
 
   render() {
