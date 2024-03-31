@@ -55,7 +55,7 @@ class App extends Component {
       this.setState({ tokens });
   
       const userBalance = await contract.methods.balanceOf(this.state.account).call();
-      const userBalanceAdjusted = userBalance / 10 ** 18; // Divide por 10^18 para considerar los 18 decimales
+      const userBalanceAdjusted = userBalance; // Divide por 10^18 para considerar los 18 decimales
       this.setState({ userBalance: userBalanceAdjusted }); // Actualiza el balance del usuario en el estado
     } else {
       window.alert('¡El Smart Contract no se ha desplegado en la red!')
