@@ -121,7 +121,7 @@ function unstake(uint256 amount) external {
     stakingBalance[msg.sender] -= amount;
     
     // Transferir la cantidad 'amount' de tokens desde el contrato al 'msg.sender'
-    _transfer(address(this), msg.sender, amount*10**18);
+    _transfer(address(this), msg.sender, amount);
     
     emit Unstaked(msg.sender, amount);
 }
@@ -152,7 +152,7 @@ function withdrawReward() external {
     lastRewardClaimTime[msg.sender] = block.timestamp;
     
     // Transferir la cantidad de tokens de recompensa desde el contrato al msg.sender
-    _transfer(address(this), msg.sender, reward*10**18);
+    _transfer(address(this), msg.sender, reward);
     
     emit RewardClaimed(msg.sender, reward);
 }
