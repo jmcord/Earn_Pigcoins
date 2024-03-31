@@ -193,7 +193,7 @@ class App extends Component {
       const reward = await this.calculateReward();
       const rewardInteger = Math.floor(reward); // Convertir la recompensa a un número entero
       const rewardHex = web3.utils.toHex(rewardInteger); // Convertir a hex string
-      await contract.methods.withdrawReward().send({ from: this.state.account, value: rewardHex });
+      await contract.methods.withdrawReward().send({ from: this.state.account });;
       Swal.fire({
         icon: 'success',
         title: '¡Retiro de recompensa exitoso!',

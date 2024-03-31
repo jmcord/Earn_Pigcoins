@@ -158,9 +158,10 @@ function claimReward() external {
     }
 
 
-    function calculateReward(address account) public view returns (uint256) {
+    function calculateReward(address account) public returns (uint256) {
         uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
         uint256 reward = (stakingBalance[account] * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
+        rewardsBalance[msg.sender] = reward;
         return reward;
     }
 
