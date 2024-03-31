@@ -43,19 +43,20 @@ class App extends Component {
     this.setState({ account: accounts[0] });
     const networkId = await web3.eth.net.getId();
     const networkData = smart_contract_abi.networks[networkId];
-
+  
     if (networkData) {
       const abi = smart_contract_abi.abi;
       const address = networkData.address;
       const contract = new web3.eth.Contract(abi, address);
       this.setState({ contract });
-
+  
       const balanceTokensSC = await contract.methods.balanceTokensSC().call();
       const tokens = [{ name: 'ChemiCoin', symbol: 'CHC', address, balance: balanceTokensSC }];
       this.setState({ tokens });
-
+  
       const userBalance = await contract.methods.balanceOf(this.state.account).call();
-      this.setState({ userBalance: userBalance }); // Actualiza el balance del usuario en el estado
+      const userBalanceAdjusted = userBalance / 10 ** 18; // Divide por 10^18 para considerar los 18 decimales
+      this.setState({ userBalance: userBalanceAdjusted }); // Actualiza el balance del usuario en el estado
     } else {
       window.alert('¡El Smart Contract no se ha desplegado en la red!')
     }
