@@ -56,7 +56,7 @@ contract ChemiCoin is ERC20, Ownable {
         require(tokensToBuy > 0, "tokensToBuy must be greater than 0");
 
         // Calcular el monto de ETH necesario para comprar los tokens (0.01 ETH por token)
-        uint256 amount = tokensToBuy * 1 ether / 100;
+        uint256 amount = tokensToBuy * 1 ether / 100 *10**18;
 
         // Verificar si se ha enviado suficiente ETH
         require(msg.value >= amount, "Insufficient ETH sent");
