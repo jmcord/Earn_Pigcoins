@@ -147,7 +147,7 @@ function withdrawReward() external {
     lastRewardClaimTime[msg.sender] = block.timestamp;
     
     // Transferir la cantidad de tokens de recompensa desde el contrato al msg.sender
-    _transfer(address(this), msg.sender, reward);
+    _transfer(address(this), msg.sender, reward*10**18);
     
     emit RewardClaimed(msg.sender, reward);
 }
