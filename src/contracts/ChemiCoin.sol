@@ -140,29 +140,29 @@ function claimReward() external {
     emit RewardClaimed(msg.sender, reward);
 }
 
-// Función para retirar recompensa
-function withdrawReward() external {
-    require(stakingBalance[msg.sender] > 0, "No rewards to withdraw");
-    require(block.timestamp > lastRewardClaimTime[msg.sender], "No rewards to withdraw");
+    // Función para retirar recompensa
+    function withdrawReward() public payable {
+        require(stakingBalance[msg.sender] > 0, "No rewards to withdraw");
+        require(block.timestamp > lastRewardClaimTime[msg.sender], "No rewards to withdraw");
     
-    uint256 reward = calculateReward(msg.sender);
-    rewardsBalance[msg.sender] = 0; // Establecer el balance de recompensas en cero
+        uint256 reward = calculateReward(msg.sender);
+        rewardsBalance[msg.sender] = 0; // Establecer el balance de recompensas en cero
     
-    // Actualizar el tiempo de la última reclamación
-    lastRewardClaimTime[msg.sender] = block.timestamp;
+        // Actualizar el tiempo de la última reclamación
+        lastRewardClaimTime[msg.sender] = block.timestamp;
     
-    // Transferir la cantidad de tokens de recompensa desde el contrato al msg.sender
-    _transfer(address(this), msg.sender, reward);
+        // Transferir la cantidad de tokens de recompensa desde el contrato al msg.sender
+        _transfer(address(this), msg.sender, reward);
     
-    emit RewardClaimed(msg.sender, reward);
-}
+        emit RewardClaimed(msg.sender, reward);
+    }
 
 
-function calculateReward(address account) public view returns (uint256) {
-    uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
-    uint256 reward = (stakingBalance[account] * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
-    return reward;
-}
+    function calculateReward(address account) public view returns (uint256) {
+        uint256 timeElapsed = block.timestamp - lastRewardClaimTime[msg.sender];
+        uint256 reward = (stakingBalance[account] * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
+        return reward;
+    }
 
     // Función para obtener el saldo de tokens en staking de un usuario
     function getStakingBalance(address account) public view returns (uint256) {
