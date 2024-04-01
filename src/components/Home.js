@@ -10,6 +10,8 @@ import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import imagenCalculoRecompensa from 'C:/Users/jcord/Documents/Master_BC/PigCoins/src/img/4.png';
+
 const APY = 1000;
 
 class App extends Component {
@@ -319,6 +321,7 @@ class App extends Component {
                       icon: 'info',
                       title: 'Recompensa Calculada',
                       text: `La recompensa estimada es de ${reward/100} tokens.`,
+                      imageUrl: imagenCalculoRecompensa, // Reemplaza 'url_de_la_imagen.jpg' con la URL de tu imagen
                     });
                   }}
                 >
