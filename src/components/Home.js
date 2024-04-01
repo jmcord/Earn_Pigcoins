@@ -233,6 +233,7 @@ class App extends Component {
   }
   
 
+
   render() {
     return (
       <div>
@@ -257,42 +258,69 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Container>
-                <h3>Stake de Tokens</h3>
-                <form onSubmit={(event) => {
-                  event.preventDefault();
-                  const amount = this._stakeAmount.value;
-                  this.stakeTokens(amount);
-                }}>
-                  <input
-                    type="number"
-                    className="form-control mb-1"
-                    placeholder="Cantidad de tokens a stakear"
-                    ref={(input) => this._stakeAmount = input}
-                  />
-                  <input
-                    type="submit"
-                    className="btn btn-primary btn-sm"
-                    value="Stake Tokens"
-                  />
-                </form>
-                <h3>Retirar Tokens del Stake</h3>
-                <form onSubmit={(event) => {
-                  event.preventDefault();
-                  const amount = this._unstakeAmount.value;
-                  this.unstakeTokens(amount);
-                }}>
-                  <input
-                    type="number"
-                    className="form-control mb-1"
-                    placeholder="Cantidad de tokens a retirar"
-                    ref={(input) => this._unstakeAmount = input}
-                  />
-                  <input
-                    type="submit"
-                    className="btn btn-primary btn-sm"
-                    value="Retirar Tokens del Stake"
-                  />
-                </form>
+
+                <div className="d-flex justify-content-around">
+                  <div>
+                    <h3>Stake de Tokens</h3>
+                    <form onSubmit={(event) => {
+                      event.preventDefault();
+                      const amount = this._stakeAmount.value;
+                      this.stakeTokens(amount);
+                    }}>
+                      <input
+                        type="number"
+                        className="form-control mb-1"
+                        placeholder="Cantidad de tokens a stakear"
+                        ref={(input) => this._stakeAmount = input}
+                      />
+                      <input
+                        type="submit"
+                        className="btn btn-secondary btn-sm"
+                        value="Stake Tokens"
+                      />
+                    </form>
+                  </div>
+
+                  <div>
+                    <h3>Calcular Recompensa</h3>
+                    <button
+                      className="btn btn-warning btn-sm"
+                      onClick={async () => {
+                        const reward = await this.calculateReward();
+                        Swal.fire({
+                          icon: 'info',
+                          title: 'Recompensa Calculada',
+                          text: `La recompensa estimada es de ${reward/100} tokens.`,
+                          imageUrl: imagenCalculoRecompensa, // Reemplaza 'url_de_la_imagen.jpg' con la URL de tu imagen
+                        });
+                      }}
+                    >
+                      Calcular Recompensa
+                    </button>
+                  </div>
+
+                  <div>
+                    <h3>Retirar Tokens del Stake</h3>
+                    <form onSubmit={(event) => {
+                      event.preventDefault();
+                      const amount = this._unstakeAmount.value;
+                      this.unstakeTokens(amount);
+                    }}>
+                      <input
+                        type="number"
+                        className="form-control mb-1"
+                        placeholder="Cantidad de tokens a retirar"
+                        ref={(input) => this._unstakeAmount = input}
+                      />
+                      <input
+                        type="submit"
+                        className="btn btn-secondary btn-sm"
+                        value="Retirar Tokens del Stake"
+                      />
+                    </form>
+                  </div>
+                </div>
+
                 <h3>Compra de Tokens ERC-20</h3>
                 <form onSubmit={(event) => {
                   event.preventDefault();
@@ -311,30 +339,6 @@ class App extends Component {
                     value="COMPRAR TOKENS"
                   />
                 </form>
-
-                <h3>Calcular Recompensa</h3>
-                <button
-                  className="btn btn-info btn-sm"
-                  onClick={async () => {
-                    const reward = await this.calculateReward();
-                    Swal.fire({
-                      icon: 'info',
-                      title: 'Recompensa Calculada',
-                      text: `La recompensa estimada es de ${reward/100} tokens.`,
-                      imageUrl: imagenCalculoRecompensa, // Reemplaza 'url_de_la_imagen.jpg' con la URL de tu imagen
-                    });
-                  }}
-                >
-                  Calcular Recompensa
-                </button>
-
-                <h3>Retirar Recompensa</h3>
-                <button
-                  className="btn btn-warning btn-sm"
-                  onClick={this.withdrawReward}
-                >
-                  Retirar Recompensa
-                </button>
 
                 <h3>Mint Tokens</h3>
                 <form onSubmit={(event) => {
@@ -361,6 +365,7 @@ class App extends Component {
                     value="Mint Tokens"
                   />
                 </form>
+
                 <h3>Saldo del Usuario</h3>
                 <p>{this.state.userBalance} tokens</p>
               </div>
