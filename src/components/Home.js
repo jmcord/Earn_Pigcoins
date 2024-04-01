@@ -209,6 +209,26 @@ class App extends Component {
     }
   }
   
+  unstakeTokens = async (amount) => {
+    try {
+      const web3 = window.web3;
+      const contract = this.state.contract;
+      const accounts = await web3.eth.getAccounts();
+      await contract.methods.unstake(amount).send({ from: accounts[0] });
+      Swal.fire({
+        icon: 'success',
+        title: '¡Unstake de tokens realizado!',
+        text: `Has unstaked ${amount} tokens.`,
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al realizar el unstake de tokens',
+        text: err.message,
+      });
+    }
+  }
   
 
   render() {
@@ -251,6 +271,24 @@ class App extends Component {
                     type="submit"
                     className="btn btn-primary btn-sm"
                     value="Stake Tokens"
+                  />
+                </form>
+                <h3>Retirar Tokens del Stake</h3>
+                <form onSubmit={(event) => {
+                  event.preventDefault();
+                  const amount = this._unstakeAmount.value;
+                  this.unstakeTokens(amount);
+                }}>
+                  <input
+                    type="number"
+                    className="form-control mb-1"
+                    placeholder="Cantidad de tokens a retirar"
+                    ref={(input) => this._unstakeAmount = input}
+                  />
+                  <input
+                    type="submit"
+                    className="btn btn-primary btn-sm"
+                    value="Retirar Tokens del Stake"
                   />
                 </form>
                 <h3>Compra de Tokens ERC-20</h3>
