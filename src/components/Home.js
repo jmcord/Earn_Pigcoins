@@ -199,7 +199,7 @@ class App extends Component {
       Swal.fire({
         icon: 'success',
         title: '¡Retiro de recompensa exitoso!',
-        text: `Has retirado ${rewardInteger} tokens como recompensa.`,
+        text: `Has retirado ${rewardInteger/100} tokens como recompensa.`,
       });
     } catch (err) {
       console.error(err);
@@ -295,6 +295,15 @@ class App extends Component {
                       }}
                     >
                       Calcular Recompensa
+                    </button>
+                  </div>
+                  <div>
+                    <h3>Retirar Recompensas</h3>
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={this.withdrawReward}
+                    >
+                      Retirar Recompensas
                     </button>
                   </div>
 
