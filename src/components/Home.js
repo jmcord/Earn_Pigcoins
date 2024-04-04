@@ -294,7 +294,7 @@ class App extends Component {
                         Swal.fire({
                           icon: 'info',
                           title: 'Recompensa Calculada',
-                          text: `La recompensa estimada es de ${reward/100} tokens.`
+                          text: `La recompensa estimada es de ${reward/1000} tokens.`
                         });
                       }}
                     >
