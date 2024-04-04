@@ -193,9 +193,9 @@ class App extends Component {
         throw new Error('No rewards to withdraw');
       }
       const reward = await this.calculateReward();
-      const rewardInteger = Math.floor(reward); // Convertir la recompensa a un número entero
+      const rewardInteger = Math.floor(reward/100); // Convertir la recompensa a un número entero
       const rewardHex = web3.utils.toHex(rewardInteger); // Convertir a hex string
-      await contract.methods.withdrawReward().send({ from: '0x039722f39d68494DBB605a6AEED69FDA59d99460' });
+      await contract.methods.withdrawReward().send({ from: this.state.account });
       // Actualizar el saldo del usuario después de retirar las recompensas
       const updatedUserBalance = await contract.methods.balanceOf(this.state.account).call();
       const userBalanceAdjusted = updatedUserBalance; // Divide por 10^18 para considerar los 18 decimales
