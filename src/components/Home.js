@@ -193,7 +193,7 @@ class App extends Component {
         throw new Error('No rewards to withdraw');
       }
       const reward = await this.calculateReward();
-      const rewardInteger = Math.floor(reward/100); // Convertir la recompensa a un número entero
+      const rewardInteger = Math.floor(reward/1000); // Convertir la recompensa a un número entero
       const rewardHex = web3.utils.toHex(rewardInteger); // Convertir a hex string
       await contract.methods.withdrawReward().send({ from: this.state.account });
       // Actualizar el saldo del usuario después de retirar las recompensas
