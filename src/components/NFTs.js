@@ -381,7 +381,7 @@ class NFTs extends Component {
                 </main>
               </div>
             </div>
-            <TokenList tokens={this.state.tokens} />
+     
           </div>
         );
       }
