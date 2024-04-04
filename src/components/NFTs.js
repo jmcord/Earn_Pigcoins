@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Button } from 'react';
 import smart_contract_abi from '../abis/ChemiCoin.json';
 import Web3 from 'web3';
 import Swal from 'sweetalert2';
@@ -10,9 +10,13 @@ import TokenList from './TokenList';
 import { Container } from 'react-bootstrap';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import MyNFTABI from '../abis/MyNFT.json'
 
 
-const APY = 10000;
+const totalImages = 4;
+const maxTokensPerImage = 10;
+const tokenPrice = 1; // Precio en ether
+const MyNFTAddress = '0x039722f39d68494DBB605a6AEED69FDA59d99460'; //Poner la dirección real cuando se despliegue
 
 
 class NFTs extends Component {
@@ -20,9 +24,9 @@ class NFTs extends Component {
         account: '0x0',
         loading: true,
         contract: null,
-        tokens: [],
-        userBalance: 0 // Nuevo estado para almacenar el saldo del usuario
-      }
+        tokensSoldPerImage: [],
+        imageIPFSLinks: []
+      };
     
       async componentDidMount() {
         await this.loadWeb3();
@@ -44,344 +48,64 @@ class NFTs extends Component {
         const web3 = window.web3;
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
-        const networkId = await web3.eth.net.getId();
-        const networkData = smart_contract_abi.networks[networkId];
-      
-        if (networkData) {
-          const abi = smart_contract_abi.abi;
-          const address = networkData.address;
-          const contract = new web3.eth.Contract(abi, address);
-          this.setState({ contract });
-      
-          const balanceTokensSC = await contract.methods.balanceTokensSC().call();
-          const tokens = [{ name: 'ChemiCoin', symbol: 'CHC', address, balance: balanceTokensSC }];
-          this.setState({ tokens });
-      
-          const userBalance = await contract.methods.balanceOf(this.state.account).call();
-          const userBalanceAdjusted = userBalance; // Divide por 10^18 para considerar los 18 decimales
-          this.setState({ userBalance: userBalanceAdjusted }); // Actualiza el balance del usuario en el estado
-        } else {
-          window.alert('¡El Smart Contract no se ha desplegado en la red!')
+    
+        const MyNFT = new web3.eth.Contract(MyNFTABI, MyNFTAddress);
+        this.setState({ contract: MyNFT });
+    
+        const tokensSoldPerImage = [];
+        const imageIPFSLinks = [];
+        for (let i = 0; i < totalImages; i++) {
+          const tokensSold = await MyNFT.methods.tokensSoldPerImage(i).call();
+          const ipfsLink = await MyNFT.methods.getImageIPFSLink(i).call();
+          tokensSoldPerImage.push(tokensSold);
+          imageIPFSLinks.push(ipfsLink);
         }
+        this.setState({ tokensSoldPerImage, imageIPFSLinks });
       }
     
-      balanceTokensSC = async () => {
-        try {
-          const balanceTokensSC = await this.state.contract.methods.balanceTokensSC().call();
-          Swal.fire({
-            icon: 'info',
-            title: 'Balance de tokens del Smart Contract:',
-            width: 800,
-            padding: '3em',
-            text: `${balanceTokensSC} tokens`,
-            backdrop: `rgba(15, 238, 168, 0.2) left top no-repeat`
-          });
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al obtener el balance de tokens del Smart Contract',
-            text: err.message,
-          });
-        }
-      }
-    
-      compraTokens = async (numTokens) => {
+      mintToken = async (imageId) => {
         try {
           const web3 = window.web3;
-          const ethers = web3.utils.toWei(numTokens, 'ether');
-          await this.state.contract.methods.buyTokens(numTokens).send({
-            from: this.state.account,
-            value: ethers * 0.01
-          });
-          Swal.fire({
-            icon: 'success',
-            title: '¡Compra de tokens realizada!',
-            width: 800,
-            padding: '3em',
-            text: `Has comprado ${numTokens} token/s por un valor de ${ethers / 10 ** 18} ether/s`,
-            backdrop: `rgba(15, 238, 168, 0.2) left top no-repeat`
-          });
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al realizar la compra de tokens',
-            text: err.message,
-          });
-        }
-      }
-    
-      stakeTokens = async (amount) => {
-        try {
-          const web3 = window.web3;
-          const contract = this.state.contract;
-          const accounts = await web3.eth.getAccounts();
-          await contract.methods.stake(amount).send({ from: accounts[0] });
-          Swal.fire({
-            icon: 'success',
-            title: '¡Stake de tokens realizado!',
-            text: `Has staked ${amount} tokens.`,
-          });
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al realizar el stake de tokens',
-            text: err.message,
-          });
-        }
-      }
-    
-      mintTokens = async (recipient, amount) => {
-        try {
-          const web3 = window.web3;
-          const contract = this.state.contract;
-          const accounts = await web3.eth.getAccounts();
-          const isOwner = await contract.methods.owner().call() === accounts[0]; // Verificar si la cuenta actual es propietaria
-          if (!isOwner) {
-            throw new Error('No tienes permisos para realizar esta acción.');
+          const MyNFT = this.state.contract;
+          const tokensSold = this.state.tokensSoldPerImage[imageId];
+          if (tokensSold >= maxTokensPerImage) {
+            throw new Error('All tokens for this image are sold out');
           }
-          await contract.methods.mint(recipient, amount).send({ from: accounts[0] });
+          await MyNFT.methods.mint(imageId).send({ from: this.state.account, value: web3.utils.toWei(tokenPrice.toString(), 'ether') });
           Swal.fire({
             icon: 'success',
-            title: '¡Minting de tokens realizado!',
-            width: 800,
-            padding: '3em',
-            text: `Has minted ${amount} token/s para ${recipient}`,
-            backdrop: `rgba(15, 238, 168, 0.2) left top no-repeat`
+            title: '¡Token minteado exitosamente!',
+            text: '¡Has minteado un nuevo token de esta imagen!',
           });
         } catch (err) {
           console.error(err);
           Swal.fire({
             icon: 'error',
-            title: 'Error al realizar el minting de tokens',
+            title: 'Error al mintear el token',
             text: err.message,
           });
         }
-      }
-    
-      calculateReward = async () => {
-        try {
-          const web3 = window.web3;
-          const contract = this.state.contract;
-          const timeElapsed = (await web3.eth.getBlock('latest')).timestamp - (await contract.methods.lastRewardClaimTime(this.state.account).call());
-          const reward = (await contract.methods.stakingBalance(this.state.account).call() * APY * timeElapsed) / (365 * 24 * 60 * 60 * 100); // APY * timeElapsed / 365 days
-          return reward;
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al calcular la recompensa',
-            text: err.message,
-          });
-        }
-      }
-    
-      withdrawReward = async () => {
-        try {
-          const web3 = window.web3;
-          const contract = this.state.contract;
-          const stakingBalance = await contract.methods.stakingBalance(this.state.account).call();
-          if (stakingBalance <= 0) {
-            throw new Error('No rewards to withdraw');
-          }
-          const lastRewardClaimTime = await contract.methods.lastRewardClaimTime(this.state.account).call();
-          const blockNumber = await web3.eth.getBlockNumber();
-          const block = await web3.eth.getBlock(blockNumber);
-          const currentTime = block.timestamp;
-          if (currentTime <= lastRewardClaimTime) {
-            throw new Error('No rewards to withdraw');
-          }
-          const reward = await this.calculateReward();
-          const rewardInteger = Math.floor(reward); // Convertir la recompensa a un número entero
-          const rewardHex = web3.utils.toHex(rewardInteger); // Convertir a hex string
-          await contract.methods.withdrawReward().send({ from: this.state.account });
-          Swal.fire({
-            icon: 'success',
-            title: '¡Retiro de recompensa exitoso!',
-            text: `Has retirado ${rewardInteger/100} tokens como recompensa.`,
-          });
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al retirar la recompensa',
-            text: err.message,
-          });
-        }
-      }
-      
-      unstakeTokens = async (amount) => {
-        try {
-          const web3 = window.web3;
-          const contract = this.state.contract;
-          const accounts = await web3.eth.getAccounts();
-          await contract.methods.unstake(amount).send({ from: accounts[0] });
-          Swal.fire({
-            icon: 'success',
-            title: '¡Unstake de tokens realizado!',
-            text: `Has unstaked ${amount} tokens.`,
-          });
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al realizar el unstake de tokens',
-            text: err.message,
-          });
-        }
-      }
-      
-    
+      };
     
       render() {
         return (
           <div>
-            <Navigation account={this.state.account} />
-            <MyCarousel />
-            <div className="container-fluid mt-5">
-              <div className="row">
-                <main role="main" className="col-lg-12 d-flex text-center">
-                  <div className="content mr-auto ml-auto">
-                    <h1>¡Gestiona, compra y stakea tus PigCoins!</h1>
-                    <h1>¡No te quedes sin los tuyos!</h1>
-                    <Container>
-                      <Row>
-                        <Col>
-                          <h3>Tokens SC</h3>
-                          <button
-                            className="btn btn-info btn-sm"
-                            onClick={this.balanceTokensSC}
-                          >
-                            Balance de Tokens (SC)
-                          </button>
-                        </Col>
-                      </Row>
-                    </Container>
-    
-                    <div className="d-flex justify-content-around">
-                      <div>
-                        <h3>Stake de Tokens</h3>
-                        <form onSubmit={(event) => {
-                          event.preventDefault();
-                          const amount = this._stakeAmount.value;
-                          this.stakeTokens(amount);
-                        }}>
-                          <input
-                            type="number"
-                            className="form-control mb-1"
-                            placeholder="Cantidad de tokens a stakear"
-                            ref={(input) => this._stakeAmount = input}
-                          />
-                          <input
-                            type="submit"
-                            className="btn btn-secondary btn-sm"
-                            value="Stake Tokens"
-                          />
-                        </form>
-                      </div>
-    
-                      <div>
-                        <h3>Calcular Recompensa</h3>
-                        <button
-                          className="btn btn-warning btn-sm"
-                          onClick={async () => {
-                            const reward = await this.calculateReward();
-                            Swal.fire({
-                              icon: 'info',
-                              title: 'Recompensa Calculada',
-                              text: `La recompensa estimada es de ${reward/100} tokens.`
-                            });
-                          }}
-                        >
-                          Calcular Recompensa
-                        </button>
-                      </div>
-                      <div>
-                        <h3>Retirar Recompensas</h3>
-                        <button
-                          className="btn btn-primary btn-sm"
-                          onClick={this.withdrawReward}
-                        >
-                          Retirar Recompensas
-                        </button>
-                      </div>
-    
-                      <div>
-                        <h3>Retirar Tokens del Stake</h3>
-                        <form onSubmit={(event) => {
-                          event.preventDefault();
-                          const amount = this._unstakeAmount.value;
-                          this.unstakeTokens(amount);
-                        }}>
-                          <input
-                            type="number"
-                            className="form-control mb-1"
-                            placeholder="Cantidad de tokens a retirar"
-                            ref={(input) => this._unstakeAmount = input}
-                          />
-                          <input
-                            type="submit"
-                            className="btn btn-secondary btn-sm"
-                            value="Retirar Tokens del Stake"
-                          />
-                        </form>
-                      </div>
-                    </div>
-    
-                    <h3>Compra de Tokens ERC-20</h3>
-                    <form onSubmit={(event) => {
-                      event.preventDefault();
-                      const cantidad = this._numTokens.value;
-                      this.compraTokens(cantidad); //*10**18?
-                    }}>
-                      <input
-                        type="number"
-                        className="form-control mb-1"
-                        placeholder="Cantidad de tokens a comprar"
-                        ref={(input) => (this._numTokens = input)}
-                      />
-                      <input
-                        type="submit"
-                        className="btn btn-primary btn-sm"
-                        value="COMPRAR TOKENS"
-                      />
-                    </form>
-    
-                    <h3>Mint Tokens</h3>
-                    <form onSubmit={(event) => {
-                      event.preventDefault();
-                      const recipient = this._recipient.value;
-                      const amount = this._amount.value;
-                      this.mintTokens(recipient, amount);
-                    }}>
-                      <input
-                        type="text"
-                        className="form-control mb-1"
-                        placeholder="Dirección del destinatario"
-                        ref={(input) => this._recipient = input}
-                      />
-                      <input
-                        type="number"
-                        className="form-control mb-1"
-                        placeholder="Cantidad de tokens a mintear"
-                        ref={(input) => this._amount = input}
-                      />
-                      <input
-                        type="submit"
-                        className="btn btn-success btn-sm"
-                        value="Mint Tokens"
-                      />
-                    </form>
-    
-                    <h3>Saldo del Usuario</h3>
-                    <p>{this.state.userBalance} tokens</p>
-                  </div>
-                </main>
-              </div>
-            </div>
-     
+            {/* Tu componente Navigation aquí */}
+            <Container>
+              <Row>
+                {Array.from({ length: totalImages }, (_, i) => (
+                  <Col key={i} className="my-3">
+                    <h3>Imagen {i + 1}</h3>
+                    <p>Tokens vendidos: {this.state.tokensSoldPerImage[i]}</p>
+                    <p>IPFS Link: {this.state.imageIPFSLinks[i]}</p>
+                    <Button variant="primary" onClick={() => this.mintToken(i)}>
+                      Mintear Token
+                    </Button>
+                  </Col>
+                ))}
+              </Row>
+            </Container>
+            {/* Otros componentes de tu aplicación */}
           </div>
         );
       }
