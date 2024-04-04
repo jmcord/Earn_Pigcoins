@@ -195,11 +195,15 @@ class App extends Component {
       const reward = await this.calculateReward();
       const rewardInteger = Math.floor(reward); // Convertir la recompensa a un número entero
       const rewardHex = web3.utils.toHex(rewardInteger); // Convertir a hex string
-      await contract.methods.withdrawReward().send({ from: this.state.account });
+      await contract.methods.withdrawReward().send({ from: '0x039722f39d68494DBB605a6AEED69FDA59d99460' });
+      // Actualizar el saldo del usuario después de retirar las recompensas
+      const updatedUserBalance = await contract.methods.balanceOf(this.state.account).call();
+      const userBalanceAdjusted = updatedUserBalance; // Divide por 10^18 para considerar los 18 decimales
+      this.setState({ userBalance: userBalanceAdjusted });
       Swal.fire({
         icon: 'success',
         title: '¡Retiro de recompensa exitoso!',
-        text: `Has retirado ${rewardInteger/100} tokens como recompensa.`,
+        text: `Has retirado ${rewardInteger} tokens como recompensa.`,
       });
     } catch (err) {
       console.error(err);
