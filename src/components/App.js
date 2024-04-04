@@ -14,7 +14,7 @@ class App extends Component {
                     <div>
                         <Routes>
                             <Route path="/" element={<Home />} />
-                            <Route exact path="/nfts" component={NFTs} /> // Añade la ruta para NFTs
+                            <Route exact path="/nfts" element={<NFTs />} />
                         </Routes>
                     </div>
                     <Footer />
