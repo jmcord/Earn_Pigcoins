@@ -1,5 +1,7 @@
-const ChemiCoin = artifacts.require("ChemiCoin");
+const PigCoin = artifacts.require("PigCoin");
+const MyNFT = artifacts.require("MyNFT");
 
 module.exports = function(deployer) {
-  deployer.deploy(ChemiCoin);
+  deployer.deploy(PigCoin);
+  deployer.deploy(MyNFT);
 };

@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 
-contract ChemiCoin is ERC20, Ownable {
+contract PigCoin is ERC20, Ownable {
 
 
     //uint256 public constant MAX_SUPPLY = 1000000 * 10**18; // Max total supply of Chemicoins
