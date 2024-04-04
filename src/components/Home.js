@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 
 
 
-const APY = 1000;
+const APY = 10000;
 
 class App extends Component {
   state = {

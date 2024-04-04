@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from './Home';
 import Footer from './Footer';
+import NFTs from './NFTs';
 
 class App extends Component {
     
@@ -13,6 +14,7 @@ class App extends Component {
                     <div>
                         <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route exact path="/nfts" component={NFTs} /> // Añade la ruta para NFTs
                         </Routes>
                     </div>
                     <Footer />

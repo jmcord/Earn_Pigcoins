@@ -24,6 +24,8 @@ const Navigation = ({ account }) => {
                                 {account.slice(0, 10) + '...' + account.slice(32, 42)}
                             </Button>
                         </Nav.Link>
+                        <Nav.Link as={Link} to="/nfts">NFTs</Nav.Link>
+
                     </Nav>
                 </Navbar.Collapse>
             </Container>
