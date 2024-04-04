@@ -203,7 +203,7 @@ class App extends Component {
       Swal.fire({
         icon: 'success',
         title: '¡Retiro de recompensa exitoso!',
-        text: `Has retirado ${rewardInteger} tokens como recompensa.`,
+        text: `Has retirado ${rewardInteger/10} tokens como recompensa.`,
       });
     } catch (err) {
       console.error(err);
