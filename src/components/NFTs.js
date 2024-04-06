@@ -7,15 +7,11 @@ import Navigation from './Navbar';
 import MyCarousel from './Carousel';
 
 function NFTs() {
-  const [account, setAccount] = useState(null); // Define la variable de estado 'account'
-
+  const [account, setAccount] = useState(null);
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [transactionHash, setTransactionHash] = useState('');
-
-  // Definir los imageIds para cada imagen
-  const imageIdNFT1 = 1;
-  const imageIdNFT2 = 2;
+  const [selectedImageId, setSelectedImageId] = useState(null); // Nuevo estado para el ID de la imagen seleccionada
 
   // Conectar a la red Ethereum
   async function connectToEthereum() {
@@ -26,7 +22,7 @@ function NFTs() {
 
         // Solicitar acceso a la cuenta del usuario
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        setAccount(accounts[0]); // Guardar la cuenta del usuario
+        setAccount(accounts[0]);
 
         // Crear una instancia del contrato MyNFT
         const contractAddress = 'MY_NFT_CONTRACT_ADDRESS';
@@ -41,12 +37,17 @@ function NFTs() {
   }
 
   // Manejar el envío del formulario de minting
-  async function handleMintSubmit(event, imageId) {
+  async function handleMintSubmit(event) {
     event.preventDefault();
     try {
-      // Mintear el NFT llamando al método mint del contrato
+      if (selectedImageId === null) {
+        console.error('No se ha seleccionado ninguna imagen para mintear.');
+        return;
+      }
+      
+      // Mintear el NFT llamando al método mint del contrato con el selectedImageId
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mint(imageId).send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
+      const result = await contract.methods.mint(selectedImageId).send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
       setTransactionHash(result.transactionHash);
     } catch (error) {
       console.error(error);
@@ -55,6 +56,7 @@ function NFTs() {
 
   return (
     <div>
+    
       <MyCarousel />
       <h1>Mintear un NFT</h1>
       {transactionHash && (
@@ -64,12 +66,12 @@ function NFTs() {
       )}
       <div style={{ display: 'flex' }}>
         <div>
-          <img src={NFT1} alt="NFT1" style={{ width: '200px', height: '200px' }} />
-          <button onClick={(event) => handleMintSubmit(event, imageIdNFT1)}>Mintear NFT 1</button>
+          <img src={NFT1} alt="NFT1" style={{ width: '200px', height: '200px' }} onClick={() => setSelectedImageId(1)} />
+          <button onClick={handleMintSubmit}>Mintear NFT 1</button>
         </div>
         <div>
-          <img src={NFT2} alt="NFT2" style={{ width: '200px', height: '200px' }} />
-          <button onClick={(event) => handleMintSubmit(event, imageIdNFT2)}>Mintear NFT 2</button>
+          <img src={NFT2} alt="NFT2" style={{ width: '200px', height: '200px' }} onClick={() => setSelectedImageId(2)} />
+          <button onClick={handleMintSubmit}>Mintear NFT 2</button>
         </div>
       </div>
       <button onClick={connectToEthereum}>Conectar a Ethereum</button>
