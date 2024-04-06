@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MyNFTABI from '../abis/MyNFT.json'; // Importa el ABI del contrato
 import Web3 from 'web3';
 import NFT1 from '../img/NFT1.png';
@@ -7,34 +7,37 @@ import Navigation from './Navbar';
 import MyCarousel from './Carousel';
 
 function NFTs() {
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState('');
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [transactionHash, setTransactionHash] = useState('');
   const [selectedImageId, setSelectedImageId] = useState(null); // Nuevo estado para el ID de la imagen seleccionada
 
-  // Conectar a la red Ethereum
-  async function connectToEthereum() {
-    if (window.ethereum) {
-      try {
-        const web3Instance = new Web3(window.ethereum);
-        setWeb3(web3Instance);
+  useEffect(() => {
+    async function connectToMetaMask() {
+      if (window.ethereum) {
+        try {
+          const web3Instance = new Web3(window.ethereum);
+          setWeb3(web3Instance);
 
-        // Solicitar acceso a la cuenta del usuario
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        setAccount(accounts[0]);
+          // Solicitar acceso a la cuenta del usuario
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          setAccount(accounts[0]);
 
-        // Crear una instancia del contrato MyNFT
-        const contractAddress = 'MY_NFT_CONTRACT_ADDRESS';
-        const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
-        setContract(contractInstance);
-      } catch (error) {
-        console.error(error);
+          // Crear una instancia del contrato MyNFT
+          const contractAddress = 'MY_NFT_CONTRACT_ADDRESS';
+          const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
+          setContract(contractInstance);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        alert('MetaMask no detectado. Asegúrate de tener MetaMask instalado y configurado correctamente.');
       }
-    } else {
-      alert('Este sitio web requiere una billetera Ethereum para interactuar con la blockchain');
     }
-  }
+
+    connectToMetaMask();
+  }, []);
 
   // Manejar el envío del formulario de minting
   async function handleMintSubmit(event) {
@@ -56,7 +59,7 @@ function NFTs() {
 
   return (
     <div>
-    
+      <Navigation account={account} />
       <MyCarousel />
       <h1>Mintear un NFT</h1>
       {transactionHash && (
@@ -74,9 +77,9 @@ function NFTs() {
           <button onClick={handleMintSubmit}>Mintear NFT 2</button>
         </div>
       </div>
-      <button onClick={connectToEthereum}>Conectar a Ethereum</button>
     </div>
   );
 }
 
 export default NFTs;
+
