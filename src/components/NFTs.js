@@ -25,7 +25,7 @@ function NFTs() {
           setAccount(accounts[0]);
 
           // Crear una instancia del contrato MyNFT
-          const contractAddress = '0x5DF87522186aB4f6a0B76769A00caFa56cAE7311';
+          const contractAddress = '0x6627FBBA2d698561CbeD806e2dd44E990ac7b77D';
           const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
           setContract(contractInstance);
         } catch (error) {
@@ -40,23 +40,23 @@ function NFTs() {
   }, []);
 
   // Manejar el envío del formulario de minting
-  async function handleMintSubmit(event) {
-    event.preventDefault();
-    try {
-      if (!contract || selectedImageId === null) {
-        console.error('No se ha seleccionado ninguna imagen para mintear o el contrato no está disponible.');
-        return;
-      }
-      
-      // Mintear el NFT llamando al método mint del contrato con el selectedImageId
-      const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mint(selectedImageId).send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
-      setTransactionHash(result.transactionHash);
-    } catch (error) {
-      console.error(error);
+async function handleMintSubmit(event) {
+  event.preventDefault();
+  try {
+    if (!contract || selectedImageId === null) {
+      console.error('No se ha seleccionado ninguna imagen para mintear o el contrato no está disponible.');
+      return;
     }
+    
+    // Mintear el NFT llamando al método mint del contrato con el selectedImageId
+    const accounts = await web3.eth.getAccounts();
+    const result = await contract.methods.mint(selectedImageId).send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
+    setTransactionHash(result.transactionHash);
+  } catch (error) {
+    console.error(error);
   }
-  
+}
+
   return (
     <div>
       <Navigation account={account} />
