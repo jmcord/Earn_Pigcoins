@@ -25,7 +25,7 @@ function NFTs() {
           setAccount(accounts[0]);
 
           // Crear una instancia del contrato MyNFT
-          const contractAddress = 'MY_NFT_CONTRACT_ADDRESS';
+          const contractAddress = '0x6627FBBA2d698561CbeD806e2dd44E990ac7b77D';
           const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
           setContract(contractInstance);
         } catch (error) {
@@ -82,4 +82,3 @@ function NFTs() {
 }
 
 export default NFTs;
-
