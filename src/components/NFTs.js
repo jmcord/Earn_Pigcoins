@@ -1,114 +1,68 @@
-import React, { Component, Button } from 'react';
-import smart_contract_abi from '../abis/ChemiCoin.json';
+import React, { useState } from 'react';
+import MyNFTABI from '../abis/MyNFT.json'; // Importa el ABI del contrato
 import Web3 from 'web3';
-import Swal from 'sweetalert2';
+import NFT1 from '../img/NFT1.png';
+import NFT2 from '../img/NFT2.png';
 
+function NFTs() {
+  const [web3, setWeb3] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [transactionHash, setTransactionHash] = useState('');
 
-import Navigation from './Navbar';
-import MyCarousel from './Carousel';
-import TokenList from './TokenList';
-import { Container } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import MyNFTABI from '../abis/MyNFT.json'
+  // Definir los imageIds para cada imagen
+  const imageIdNFT1 = 1;
+  const imageIdNFT2 = 2;
 
+  // Conectar a la red Ethereum
+  async function connectToEthereum() {
+    if (window.ethereum) {
+      try {
+        const web3Instance = new Web3(window.ethereum);
+        setWeb3(web3Instance);
 
-const totalImages = 4;
-const maxTokensPerImage = 10;
-const tokenPrice = 1; // Precio en ether
-const MyNFTAddress = '0x039722f39d68494DBB605a6AEED69FDA59d99460'; //Poner la dirección real cuando se despliegue
+        // Solicitar acceso a la cuenta del usuario
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-
-class NFTs extends Component {
-    state = {
-        account: '0x0',
-        loading: true,
-        contract: null,
-        tokensSoldPerImage: [],
-        imageIPFSLinks: []
-      };
-    
-      async componentDidMount() {
-        await this.loadWeb3();
-        await this.loadBlockchainData();
+        // Crear una instancia del contrato MyNFT
+        const contractAddress = 'MY_NFT_CONTRACT_ADDRESS';
+        const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
+        setContract(contractInstance);
+      } catch (error) {
+        console.error(error);
       }
-    
-      async loadWeb3() {
-        if (window.ethereum) {
-          window.web3 = new Web3(window.ethereum);
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-        } else if (window.web3) {
-          window.web3 = new Web3(window.web3.currentProvider);
-        } else {
-          window.alert('¡Deberías considerar usar Metamask!');
-        }
-      }
-    
-      async loadBlockchainData() {
-        const web3 = window.web3;
-        const accounts = await web3.eth.getAccounts();
-        this.setState({ account: accounts[0] });
-    
-        const MyNFT = new web3.eth.Contract(MyNFTABI, MyNFTAddress);
-        this.setState({ contract: MyNFT });
-    
-        const tokensSoldPerImage = [];
-        const imageIPFSLinks = [];
-        for (let i = 0; i < totalImages; i++) {
-          const tokensSold = await MyNFT.methods.tokensSoldPerImage(i).call();
-          const ipfsLink = await MyNFT.methods.getImageIPFSLink(i).call();
-          tokensSoldPerImage.push(tokensSold);
-          imageIPFSLinks.push(ipfsLink);
-        }
-        this.setState({ tokensSoldPerImage, imageIPFSLinks });
-      }
-    
-      mintToken = async (imageId) => {
-        try {
-          const web3 = window.web3;
-          const MyNFT = this.state.contract;
-          const tokensSold = this.state.tokensSoldPerImage[imageId];
-          if (tokensSold >= maxTokensPerImage) {
-            throw new Error('All tokens for this image are sold out');
-          }
-          await MyNFT.methods.mint(imageId).send({ from: this.state.account, value: web3.utils.toWei(tokenPrice.toString(), 'ether') });
-          Swal.fire({
-            icon: 'success',
-            title: '¡Token minteado exitosamente!',
-            text: '¡Has minteado un nuevo token de esta imagen!',
-          });
-        } catch (err) {
-          console.error(err);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al mintear el token',
-            text: err.message,
-          });
-        }
-      };
-    
-      render() {
-        return (
-          <div>
-            {/* Tu componente Navigation aquí */}
-            <Container>
-              <Row>
-                {Array.from({ length: totalImages }, (_, i) => (
-                  <Col key={i} className="my-3">
-                    <h3>Imagen {i + 1}</h3>
-                    <p>Tokens vendidos: {this.state.tokensSoldPerImage[i]}</p>
-                    <p>IPFS Link: {this.state.imageIPFSLinks[i]}</p>
-                    <Button variant="primary" onClick={() => this.mintToken(i)}>
-                      Mintear Token
-                    </Button>
-                  </Col>
-                ))}
-              </Row>
-            </Container>
-            {/* Otros componentes de tu aplicación */}
-          </div>
-        );
-      }
+    } else {
+      alert('Este sitio web requiere una billetera Ethereum para interactuar con la blockchain');
     }
-    
+  }
+
+  // Manejar el envío del formulario de minting
+  async function handleMintSubmit(event, imageId) {
+    event.preventDefault();
+    try {
+      // Mintear el NFT llamando al método mint del contrato
+      const accounts = await web3.eth.getAccounts();
+      const result = await contract.methods.mint(imageId).send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
+      setTransactionHash(result.transactionHash);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return (
+    <div>
+      <h1>Mintear un NFT</h1>
+      {transactionHash && (
+        <div>
+          <p>Transacción exitosa! Hash de transacción: {transactionHash}</p>
+        </div>
+      )}
+      <div style={{ display: 'flex' }}>
+        <img src={NFT1} alt="NFT1" style={{ width: '200px', height: '200px' }} onClick={(event) => handleMintSubmit(event, imageIdNFT1)} />
+        <img src={NFT2} alt="NFT2" style={{ width: '200px', height: '200px' }} onClick={(event) => handleMintSubmit(event, imageIdNFT2)} />
+      </div>
+      <button onClick={connectToEthereum}>Conectar a Ethereum</button>
+    </div>
+  );
+}
+
 export default NFTs;
