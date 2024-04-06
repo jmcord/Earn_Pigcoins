@@ -57,8 +57,14 @@ function NFTs() {
         </div>
       )}
       <div style={{ display: 'flex' }}>
-        <img src={NFT1} alt="NFT1" style={{ width: '200px', height: '200px' }} onClick={(event) => handleMintSubmit(event, imageIdNFT1)} />
-        <img src={NFT2} alt="NFT2" style={{ width: '200px', height: '200px' }} onClick={(event) => handleMintSubmit(event, imageIdNFT2)} />
+        <div>
+          <img src={NFT1} alt="NFT1" style={{ width: '200px', height: '200px' }} />
+          <button onClick={(event) => handleMintSubmit(event, imageIdNFT1)}>Mintear NFT 1</button>
+        </div>
+        <div>
+          <img src={NFT2} alt="NFT2" style={{ width: '200px', height: '200px' }} />
+          <button onClick={(event) => handleMintSubmit(event, imageIdNFT2)}>Mintear NFT 2</button>
+        </div>
       </div>
       <button onClick={connectToEthereum}>Conectar a Ethereum</button>
     </div>
