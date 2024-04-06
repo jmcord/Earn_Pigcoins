@@ -3,8 +3,12 @@ import MyNFTABI from '../abis/MyNFT.json'; // Importa el ABI del contrato
 import Web3 from 'web3';
 import NFT1 from '../img/NFT1.png';
 import NFT2 from '../img/NFT2.png';
+import Navigation from './Navbar';
+import MyCarousel from './Carousel';
 
 function NFTs() {
+  const [account, setAccount] = useState(null); // Define la variable de estado 'account'
+
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
   const [transactionHash, setTransactionHash] = useState('');
@@ -21,7 +25,8 @@ function NFTs() {
         setWeb3(web3Instance);
 
         // Solicitar acceso a la cuenta del usuario
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        setAccount(accounts[0]); // Guardar la cuenta del usuario
 
         // Crear una instancia del contrato MyNFT
         const contractAddress = 'MY_NFT_CONTRACT_ADDRESS';
@@ -50,6 +55,7 @@ function NFTs() {
 
   return (
     <div>
+      <MyCarousel />
       <h1>Mintear un NFT</h1>
       {transactionHash && (
         <div>
