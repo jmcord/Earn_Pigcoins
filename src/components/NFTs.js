@@ -25,7 +25,7 @@ function NFTs() {
           setAccount(accounts[0]);
 
           // Crear una instancia del contrato MyNFT
-          const contractAddress = '0x6627FBBA2d698561CbeD806e2dd44E990ac7b77D';
+          const contractAddress = '0x5DF87522186aB4f6a0B76769A00caFa56cAE7311';
           const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
           setContract(contractInstance);
         } catch (error) {
@@ -43,8 +43,8 @@ function NFTs() {
   async function handleMintSubmit(event) {
     event.preventDefault();
     try {
-      if (selectedImageId === null) {
-        console.error('No se ha seleccionado ninguna imagen para mintear.');
+      if (!contract || selectedImageId === null) {
+        console.error('No se ha seleccionado ninguna imagen para mintear o el contrato no está disponible.');
         return;
       }
       
@@ -56,7 +56,7 @@ function NFTs() {
       console.error(error);
     }
   }
-
+  
   return (
     <div>
       <Navigation account={account} />
