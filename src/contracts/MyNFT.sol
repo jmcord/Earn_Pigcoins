@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract BasicNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
+contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
     using Counters for Counters.Counter;    // Initialize the counter library
 
     // Initialize a counter variable, private means that only this smart contract can access it. 
