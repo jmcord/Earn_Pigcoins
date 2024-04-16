@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BasicNFTABI from '../abis/BasicNFT.json'; // Importa el ABI del contrato
+import MyNFT from '../abis/MyNFT.json'; // Importa el ABI del contrato
 import Web3 from 'web3';
 import NFT1 from '../img/NFT1.png';
 import NFT2 from '../img/NFT2.png';
@@ -25,9 +25,11 @@ function NFTs() {
           setAccount(accounts[0]);
 
           // Crear una instancia del contrato BasicNFT
-          const contractAddress = '0x...'; // Inserta la dirección del contrato aquí
-          const contractInstance = new web3Instance.eth.Contract(BasicNFTABI, contractAddress);
+          const contractAddress = '0xD58C6726F74f3487AA4EDAb9667D56F53c7BB14B'; // Inserta la dirección del contrato aquí
+          const contractInstance = new web3Instance.eth.Contract(MyNFT.abi, contractAddress);
           setContract(contractInstance);
+          // Verificar si el ABI del contrato se ha cargado correctamente
+          console.log('ABI del contrato cargado correctamente:', MyNFT.abi);
         } catch (error) {
           console.error(error);
         }
@@ -35,6 +37,7 @@ function NFTs() {
         alert('MetaMask no detectado. Asegúrate de tener MetaMask instalado y configurado correctamente.');
       }
     }
+
 
     connectToMetaMask();
   }, []);
