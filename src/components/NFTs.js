@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MyNFTABI from '../abis/MyNFT.json'; // Importa el ABI del contrato
+import BasicNFTABI from '../abis/BasicNFT.json'; // Importa el ABI del contrato
 import Web3 from 'web3';
 import NFT1 from '../img/NFT1.png';
 import NFT2 from '../img/NFT2.png';
@@ -24,9 +24,9 @@ function NFTs() {
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           setAccount(accounts[0]);
 
-          // Crear una instancia del contrato MyNFT
-          const contractAddress = '0x55Ad0ad22e59E7c7294A66E80c93a8aa4B54B8e8';
-          const contractInstance = new web3Instance.eth.Contract(MyNFTABI, contractAddress);
+          // Crear una instancia del contrato BasicNFT
+          const contractAddress = '0x...'; // Inserta la dirección del contrato aquí
+          const contractInstance = new web3Instance.eth.Contract(BasicNFTABI, contractAddress);
           setContract(contractInstance);
         } catch (error) {
           console.error(error);
@@ -40,22 +40,22 @@ function NFTs() {
   }, []);
 
   // Manejar el envío del formulario de minting
-async function handleMintSubmit(event) {
-  event.preventDefault();
-  try {
-    if (!contract || selectedImageId === null) {
-      console.error('No se ha seleccionado ninguna imagen para mintear o el contrato no está disponible.');
-      return;
+  async function handleMintSubmit(event) {
+    event.preventDefault();
+    try {
+      if (!contract || selectedImageId === null) {
+        console.error('No se ha seleccionado ninguna imagen para mintear o el contrato no está disponible.');
+        return;
+      }
+      
+      // Mintear el NFT llamando al método safeMint del contrato con el selectedImageId y la URI de la imagen
+      const accounts = await web3.eth.getAccounts();
+      const result = await contract.methods.safeMint(accounts[0], `https://example.com/${selectedImageId}.json`).send({ from: accounts[0] });
+      setTransactionHash(result.transactionHash);
+    } catch (error) {
+      console.error(error);
     }
-    
-    // Mintear el NFT llamando al método mint del contrato con el selectedImageId
-    const accounts = await web3.eth.getAccounts();
-    const result = await contract.methods.mint(selectedImageId).send({ from: accounts[0], value: web3.utils.toWei('1', 'ether') });
-    setTransactionHash(result.transactionHash);
-  } catch (error) {
-    console.error(error);
   }
-}
 
   return (
     <div>
@@ -82,3 +82,4 @@ async function handleMintSubmit(event) {
 }
 
 export default NFTs;
+
