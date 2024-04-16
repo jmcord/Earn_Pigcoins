@@ -1,48 +1,63 @@
-// SPDX-License-Identifier: MIT 
-pragma solidity ^0.8.4; 
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol"; 
-import "@openzeppelin/contracts/access/Ownable.sol"; 
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract MyNFT is ERC721, Ownable { 
-    address public initialOwner;
-    uint256 public constant maxTokensPerImage = 10; 
-    uint256 public constant totalImages = 4; 
-    uint256 public constant tokenPrice = 1 ether; 
-    mapping(uint256 => uint256) private tokensSoldPerImage; 
-    mapping(uint256 => string) private imageIPFSLinks; 
-    
-    constructor() ERC721("MyNFT", "MNFT"){
-        initialOwner = msg.sender;
+contract BasicNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
+    using Counters for Counters.Counter;    // Initialize the counter library
+
+    // Initialize a counter variable, private means that only this smart contract can access it. 
+    Counters.Counter private _tokenIdCounter;
+
+    uint256 MAX_SUPPLY = 100;
+
+    constructor() ERC721("CoolNFT", "CNFT") {}
+
+    // This function mint the NFT to the receiving address.
+    // Increments the token ID and associates it. 
+    // Associates the token URI
+    function safeMint(address to, string memory uri) public {
+        uint256 tokenId = _tokenIdCounter.current();
+        require(tokenId <= MAX_SUPPLY, "CoolNFTs are sold out!");
+        _tokenIdCounter.increment();
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
     }
-    
-    function mint(uint256 _imageId) external payable { 
-        require(_imageId < totalImages, "Invalid image ID"); 
-        require(tokensSoldPerImage[_imageId] < maxTokensPerImage, "All tokens for this image are sold out"); 
-        require(msg.value >= tokenPrice, "Insufficient payment"); 
-        _mint(msg.sender, _getNextTokenId(_imageId)); 
-        tokensSoldPerImage[_imageId]++; 
-        if (msg.value > tokenPrice) { 
-            payable(msg.sender).transfer(msg.value - tokenPrice); // Refund excess payment 
-        } 
+
+    // The following functions are overrides required by Solidity.
+
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+        internal
+        override(ERC721, ERC721Enumerable)
+    {
+        super._beforeTokenTransfer(from, to, tokenId);
     }
 
-    function setImageIPFSLink(uint256 _imageId, string memory _ipfsLink) external onlyOwner { 
-        require(_imageId < totalImages, "Invalid image ID"); 
-        imageIPFSLinks[_imageId] = _ipfsLink; 
-    } 
-    
-    function getImageIPFSLink(uint256 _imageId) external view returns (string memory) { 
-        require(_imageId < totalImages, "Invalid image ID"); 
-        return imageIPFSLinks[_imageId]; 
-    } 
-    
-    function _getNextTokenId(uint256 _imageId) private view returns (uint256) { 
-        return _imageId * maxTokensPerImage + tokensSoldPerImage[_imageId] + 1; 
-    } 
-    
-    function withdraw() external onlyOwner { 
-        uint256 balance = address(this).balance; 
-        payable(owner()).transfer(balance); 
-    } 
+
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
+    }
+
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
+    }
+
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
 }
