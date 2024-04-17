@@ -1,0 +1,34 @@
+Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x5e46ce877bbdda0909af70d9295bf88654dd8bfa73f5f7514e68dd4b58c1ba43
+   > Blocks: 1            Seconds: 4
+   > contract address:    0xcc6dcD7632D87304A29d09D46CdFADEFE4d8dADd
+   > block number:        31947027
+   > block timestamp:     1713345536
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.1131382612545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 31947028)
+   > confirmation number: 2 (block: 31947029)
+   > confirmation number: 5 (block: 31947032)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0x260ea22e64fae67e886430a5b9c5d6d9da1e1edaf4c6459cb3ca884b5f0eebfe
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x404c60a47A58364aD0b0320E83C79C9433B2f504
+   > block number:        31947035
+   > block timestamp:     1713345553
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.0296446312545
+   > gas used:            3036132 (0x2e53e4)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08349363 ETH
