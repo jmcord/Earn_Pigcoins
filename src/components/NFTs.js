@@ -63,7 +63,7 @@ function NFTs() {
       
       // Mintear el NFT llamando al método mintNFT del contrato con el selectedImageId y la URI de la imagen
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mintNFT(accounts[0], `https://gateway.pinata.cloud/ipfs/QmUVck2eNvbUgJiiz6JAvQvhhxW7Xzg2RnLmCVPAnLbo4r`).send({ from: accounts[0] });
+      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmUVck2eNvbUgJiiz6JAvQvhhxW7Xzg2RnLmCVPAnLbo4r`).send({ from: accounts[0] });
       setTransactionHash(result.transactionHash);
     } catch (error) {
       console.error(error);
