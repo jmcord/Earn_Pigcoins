@@ -101,3 +101,48 @@ sepolia
    > Saving artifacts
    -------------------------------------
    > Total cost:         0.149951065 ETH
+avax
+ Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x0d2bf5f4d8c96131487681abc835da63ee1a190d4cc45db41e1dec2dde4f3f7e
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x378bdf7499fC333FEE54A2593ca44B6cc5AC2320
+   > block number:        31990925
+   > block timestamp:     1713447959
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.6670167612545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 31990926)
+   > confirmation number: 3 (block: 31990928)
+   > confirmation number: 5 (block: 31990930)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0xc3f3d7fda074d55c3b019684a87c682abfd5df9b70b91ebdb502962d7f84f327
+   > Blocks: 3            Seconds: 4
+   > contract address:    0xA0a5496fb5d75ABf3D7634AC3c86178CD8006444
+   > block number:        31990935
+   > block timestamp:     1713447979
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.6044691662545
+   > gas used:            2274458 (0x22b49a)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.062547595 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 31990936)
+   > confirmation number: 3 (block: 31990938)
+   > confirmation number: 5 (block: 31990940)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.142996755 ETH

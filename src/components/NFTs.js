@@ -25,7 +25,7 @@ function NFTs() {
           setAccount(accounts[0]);
 
           // Crear una instancia del contrato MyNFT
-          const contractAddress = '0xcCE567EF723011D6A5fA6A5A2bD6717F6820c71C'; // Inserta la dirección del contrato aquí
+          const contractAddress = '0xA0a5496fb5d75ABf3D7634AC3c86178CD8006444'; // Inserta la dirección del contrato aquí
           const contractInstance = new web3Instance.eth.Contract(MyNFT.abi, contractAddress);
           setContract(contractInstance);
           // Verificar si el ABI del contrato se ha cargado correctamente
@@ -52,7 +52,7 @@ function NFTs() {
       
       // Mintear el NFT llamando al método mintNFT del contrato con el selectedImageId y la URI de la imagen
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmZJm111Cz3sgbVo6HVQ4rhX6ERzm9pcx5QaLadLDttbAt`).send({ from: accounts[0] });
+      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmW5FPqgowJAPUgBVpP6LLGPVBNaT4uM2inUxENpRyi8gg`).send({ from: accounts[0] });
       setTransactionHash(result.transactionHash);
     } catch (error) {
       console.error(error);

@@ -1,0 +1,8 @@
+{
+    "name": "Nombre del NFT",
+    "description": "Descripción del NFT",
+    "image": {
+        "png": "ipfs://QmZJm111Cz3sgbVo6HVQ4rhX6ERzm9pcx5QaLadLDttbAt",
+        "metadata": "ipfs://QmZJm111Cz3sgbVo6HVQ4rhX6ERzm9pcx5QaLadLDttbAt"
+    }
+}
