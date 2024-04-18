@@ -12,6 +12,8 @@ function NFTs() {
   const [contract, setContract] = useState(null);
   const [transactionHash, setTransactionHash] = useState('');
   const [selectedImageId, setSelectedImageId] = useState(null); // Nuevo estado para el ID de la imagen seleccionada
+  const [tokenURIs, setTokenURIs] = useState({}); // Estado para almacenar las URIs de los tokens
+  const [selectedTokenURI, setSelectedTokenURI] = useState(''); // Estado para almacenar la URI del token seleccionado
 
   useEffect(() => {
     async function connectToMetaMask() {
@@ -25,11 +27,20 @@ function NFTs() {
           setAccount(accounts[0]);
 
           // Crear una instancia del contrato MyNFT
-          const contractAddress = '0xA0a5496fb5d75ABf3D7634AC3c86178CD8006444'; // Inserta la dirección del contrato aquí
+          const contractAddress = '0x18E8F015a33f01c74C90A2080bd690B725A67F18'; // Inserta la dirección del contrato aquí
           const contractInstance = new web3Instance.eth.Contract(MyNFT.abi, contractAddress);
           setContract(contractInstance);
           // Verificar si el ABI del contrato se ha cargado correctamente
           console.log('ABI del contrato cargado correctamente:', MyNFT.abi);
+          
+          // Obtener las URIs de los tokens
+          const tokenURIs = {};
+          for (let i = 0; i < 2; i++) { // Suponiendo que tienes dos NFTs
+            const tokenId = i + 1; // Comenzando desde el token ID 1
+            const uri = await contractInstance.methods.tokenURI(tokenId).call();
+            tokenURIs[tokenId] = uri;
+          }
+          setTokenURIs(tokenURIs);
         } catch (error) {
           console.error(error);
         }
@@ -52,8 +63,18 @@ function NFTs() {
       
       // Mintear el NFT llamando al método mintNFT del contrato con el selectedImageId y la URI de la imagen
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmW5FPqgowJAPUgBVpP6LLGPVBNaT4uM2inUxENpRyi8gg`).send({ from: accounts[0] });
+      const result = await contract.methods.mintNFT(accounts[0], `https://gateway.pinata.cloud/ipfs/QmUVck2eNvbUgJiiz6JAvQvhhxW7Xzg2RnLmCVPAnLbo4r`).send({ from: accounts[0] });
       setTransactionHash(result.transactionHash);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Función para obtener la URI del token seleccionado
+  async function handleGetTokenURI(tokenId) {
+    try {
+      const uri = await contract.methods.tokenURI(tokenId).call();
+      setSelectedTokenURI(uri);
     } catch (error) {
       console.error(error);
     }
@@ -79,9 +100,22 @@ function NFTs() {
           <button onClick={handleMintSubmit}>Mintear NFT 2</button>
         </div>
       </div>
+      <div>
+        {Object.keys(tokenURIs).map((tokenId) => (
+          <div key={tokenId}>
+            <p>Token ID: {tokenId}</p>
+            <p>URI: {tokenURIs[tokenId]}</p>
+            <button onClick={() => handleGetTokenURI(tokenId)}>Obtener URI</button>
+          </div>
+        ))}
+      </div>
+      {selectedTokenURI && (
+        <div>
+          <p>URI del token seleccionado: {selectedTokenURI}</p>
+        </div>
+      )}
     </div>
   );
 }
 
 export default NFTs;
-

@@ -29,4 +29,8 @@ function _setCustomTokenURI(uint256 tokenId, string memory customTokenURI) inter
         require(_exists(tokenId), "ERC721URIStorage: URI query for nonexistent token");
         return _tokenURIs[tokenId];
     }
+    function getTokenURI(uint256 tokenId) public view returns (string memory) {
+    require(_exists(tokenId), "Token does not exist");
+    return _tokenURIs[tokenId];
+}
 }

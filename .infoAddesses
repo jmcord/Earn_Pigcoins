@@ -146,3 +146,55 @@ avax
    > Saving artifacts
    -------------------------------------
    > Total cost:         0.142996755 ETH
+avax
+
+ Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x2b22b47d0d1ae428e2c2522a291eec2853340c51d34f41d75ab694ca332d9c0f
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xa21137f4fd7C469544249927fFC55812731D23df
+   > block number:        31993656
+   > block timestamp:     1713454537
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.5046114962545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 31993658)
+   > confirmation number: 3 (block: 31993659)
+   > confirmation number: 5 (block: 31993661)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0x3b45869c1db8f12d9c222afce73eb57f6c830509d9d7c16f8ce31a8c896597ef
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x18E8F015a33f01c74C90A2080bd690B725A67F18
+   > block number:        31993665
+   > block timestamp:     1713454555
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.4396763512545
+   > gas used:            2361278 (0x2407be)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.064935145 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 31993667)
+   > confirmation number: 3 (block: 31993668)
+   > confirmation number: 5 (block: 31993670)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.145384305 ETH
+
+
+
+
+   Pinata
+   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI1OTQyNzg1Ni05NDcxLTRjMTMtYWZjOS05MjdjNGYzOTdjYTIiLCJlbWFpbCI6Impjb3JkZXJvZHpAaG90bWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMjBhYWMxOGY2MTJkYjBlMzYyMjciLCJzY29wZWRLZXlTZWNyZXQiOiIxMTA0ZDIyNGY5ZjQ0ZjY0ZjkwZDNmOTgwZGQzZDc1OGQzMGI5ODM1YzhhMDM4YmM0ZTIwYTA2YjU1YTJlZGNkIiwiaWF0IjoxNzEzNDU5Nzc5fQ.0n7iTNHNENWS3xFzav0uzruIMCYIGS9sL8Fr1jJSlbY
