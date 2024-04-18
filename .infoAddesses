@@ -1,3 +1,5 @@
+avax
+
 Replacing 'PigCoin'
    -------------------
    > transaction hash:    0x5e46ce877bbdda0909af70d9295bf88654dd8bfa73f5f7514e68dd4b58c1ba43
@@ -32,3 +34,22 @@ Replacing 'PigCoin'
    > gas price:           27.5 gwei
    > value sent:          0 ETH
    > total cost:          0.08349363 ETH
+
+
+
+sepolia
+
+   Deploying 'PigCoin'
+   -------------------
+   > transaction hash:    0x43e1c78f9800efbc92814ef3e932e90f0469acdd753dbc0d37fdb070bd191e1c
+   > Blocks: 1            Seconds: 12
+   > contract address:    0x3c47d3a25Fe56b6c2f70458165A7Cf1ddB4a6573
+   > block number:        5723922
+   > block timestamp:     1713434328
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.178263930305636165
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           20 gwei
+   > value sent:          0 ETH
+
+   
