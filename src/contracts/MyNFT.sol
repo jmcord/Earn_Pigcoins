@@ -2,62 +2,21 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract MyNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
-    using Counters for Counters.Counter;    // Initialize the counter library
+contract MyNFT is ERC721URIStorage {
+    using Counters for Counters.Counter;
 
-    // Initialize a counter variable, private means that only this smart contract can access it. 
     Counters.Counter private _tokenIdCounter;
 
-    uint256 MAX_SUPPLY = 100;
+    constructor() ERC721("MyNFT", "MNFT") {}
 
-    constructor() ERC721("CoolNFT", "CNFT") {}
-
-    // This function mint the NFT to the receiving address.
-    // Increments the token ID and associates it. 
-    // Associates the token URI
-    function safeMint(address to, string memory uri) public {
-        uint256 tokenId = _tokenIdCounter.current();
-        require(tokenId <= MAX_SUPPLY, "CoolNFTs are sold out!");
+    function mintNFT(address to, string memory tokenURI) external returns (uint256) {
+        uint256 newTokenId = _tokenIdCounter.current();
+        _safeMint(to, newTokenId);
+        _setTokenURI(newTokenId, tokenURI);
         _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
-    }
-
-    // The following functions are overrides required by Solidity.
-
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
-        internal
-        override(ERC721, ERC721Enumerable)
-    {
-        super._beforeTokenTransfer(from, to, tokenId);
-    }
-
-
-    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
-        super._burn(tokenId);
-    }
-
-
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
-    }
-
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721Enumerable)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
+        return newTokenId;
     }
 }

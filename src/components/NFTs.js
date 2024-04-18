@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import MyNFT from '../abis/MyNFT.json'; // Importa el ABI del contrato
 import Web3 from 'web3';
-import NFT1 from '../img/NFT1.png';
-import NFT2 from '../img/NFT2.png';
 import Navigation from './Navbar';
 import MyCarousel from './Carousel';
+import NFT1 from '../img/NFT1.png';
+import NFT2 from '../img/NFT2.png';
 
 function NFTs() {
   const [account, setAccount] = useState('');
@@ -24,8 +24,8 @@ function NFTs() {
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           setAccount(accounts[0]);
 
-          // Crear una instancia del contrato BasicNFT
-          const contractAddress = '0xA6899E543D2dbd3604507c752498584d0F139Ae6'; // Inserta la dirección del contrato aquí
+          // Crear una instancia del contrato MyNFT
+          const contractAddress = '0xcCE567EF723011D6A5fA6A5A2bD6717F6820c71C'; // Inserta la dirección del contrato aquí
           const contractInstance = new web3Instance.eth.Contract(MyNFT.abi, contractAddress);
           setContract(contractInstance);
           // Verificar si el ABI del contrato se ha cargado correctamente
@@ -37,7 +37,6 @@ function NFTs() {
         alert('MetaMask no detectado. Asegúrate de tener MetaMask instalado y configurado correctamente.');
       }
     }
-
 
     connectToMetaMask();
   }, []);
@@ -51,9 +50,9 @@ function NFTs() {
         return;
       }
       
-      // Mintear el NFT llamando al método safeMint del contrato con el selectedImageId y la URI de la imagen
+      // Mintear el NFT llamando al método mintNFT del contrato con el selectedImageId y la URI de la imagen
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.safeMint(accounts[0], `ipfs://QmZJm111Cz3sgbVo6HVQ4rhX6ERzm9pcx5QaLadLDttbAt`).send({ from: accounts[0] });
+      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmZJm111Cz3sgbVo6HVQ4rhX6ERzm9pcx5QaLadLDttbAt`).send({ from: accounts[0] });
       setTransactionHash(result.transactionHash);
     } catch (error) {
       console.error(error);
