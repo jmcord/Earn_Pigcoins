@@ -1,36 +1,28 @@
+//Contract based on [https://docs.openzeppelin.com/contracts/3.x/erc721](https://docs.openzeppelin.com/contracts/3.x/erc721)
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract MyNFT is ERC721URIStorage {
+contract MyNFT is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIdCounter;
-    mapping(uint256 => string) private _tokenURIs;
+    Counters.Counter private _tokenIds;
 
-    constructor() ERC721("MyNFT", "MNFT") {}
+    constructor() ERC721("MyNFT", "NFT") {}
 
-    function mintNFT(address to, string memory metadataCID) external returns (uint256) {
-        uint256 newTokenId = _tokenIdCounter.current();
-        _safeMint(to, newTokenId);
-        _setTokenURI(newTokenId, metadataCID);
-        _tokenIdCounter.increment();
-        return newTokenId;
+    function mintNFT(address recipient, string memory tokenURI)
+        public onlyOwner
+        returns (uint256)
+    {
+        _tokenIds.increment();
+
+        uint256 newItemId = _tokenIds.current();
+        _mint(recipient, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+
+        return newItemId;
     }
-
-function _setCustomTokenURI(uint256 tokenId, string memory customTokenURI) internal virtual {
-    _setTokenURI(tokenId, customTokenURI);
-}
-
-
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(_exists(tokenId), "ERC721URIStorage: URI query for nonexistent token");
-        return _tokenURIs[tokenId];
-    }
-    function getTokenURI(uint256 tokenId) public view returns (string memory) {
-    require(_exists(tokenId), "Token does not exist");
-    return _tokenURIs[tokenId];
-}
 }

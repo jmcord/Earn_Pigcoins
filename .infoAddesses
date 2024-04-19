@@ -198,3 +198,145 @@ avax
 
    Pinata
    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI1OTQyNzg1Ni05NDcxLTRjMTMtYWZjOS05MjdjNGYzOTdjYTIiLCJlbWFpbCI6Impjb3JkZXJvZHpAaG90bWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJpZCI6IkZSQTEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX0seyJpZCI6Ik5ZQzEiLCJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MX1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiMjBhYWMxOGY2MTJkYjBlMzYyMjciLCJzY29wZWRLZXlTZWNyZXQiOiIxMTA0ZDIyNGY5ZjQ0ZjY0ZjkwZDNmOTgwZGQzZDc1OGQzMGI5ODM1YzhhMDM4YmM0ZTIwYTA2YjU1YTJlZGNkIiwiaWF0IjoxNzEzNDU5Nzc5fQ.0n7iTNHNENWS3xFzav0uzruIMCYIGS9sL8Fr1jJSlbY
+
+avax
+ Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x542549e4d8c7eba881f73392ab6d2d1aece36d242489ac02c9573e5663dc0100
+   > Blocks: 4            Seconds: 4
+   > contract address:    0x1270236142Ded4047e2AF2DD93A8088E993B9E18
+   > block number:        32017076
+   > block timestamp:     1713510471
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.3307495937545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32017077)
+   > confirmation number: 2 (block: 32017078)
+   > confirmation number: 4 (block: 32017080)
+   > confirmation number: 5 (block: 32017081)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0x98d63d26bef9cba87c417c2d28a439ff2d28eb807d39a9fb209ec23a18ae2bcb
+   > Blocks: 1            Seconds: 4
+   > contract address:    0xFB5Ff72B89A177E44988Df5D8F57D254ec8E06Ba
+   > block number:        32017085
+   > block timestamp:     1713510494
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.2546795062545
+   > gas used:            2766185 (0x2a3569)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0760700875 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32017086)
+   > confirmation number: 3 (block: 32017088)
+   > confirmation number: 5 (block: 32017090)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:        0.1565192475 ETH
+
+
+
+
+   avax
+
+   
+   Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x819eeee58758fb9b2a1c6f9a5e3a157e546950586e1a3afb99356948f222d656
+   > Blocks: 3            Seconds: 4
+   > contract address:    0x922F38856Be2ac3DB03CCAc0826d83CDB33D4d76
+   > block number:        32017251
+   > block timestamp:     1713510902
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.1707409537545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32017252)
+   > confirmation number: 4 (block: 32017255)
+   > confirmation number: 5 (block: 32017256)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0x969a1ecd335be29041a12bc35a6be22ed59790dfcd459dd98c88ce9c73aed0fe
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x2cb42ab34495dAE35DE9Ff981F69155Cd9bdb0D7
+   > block number:        32017257
+   > block timestamp:     1713510920
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.1058058087545
+   > gas used:            2361278 (0x2407be)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.064935145 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 3 (block: 32017261)
+   > confirmation number: 5 (block: 32017263)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.145384305 ETH
+
+avax
+  Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0xcf7fd8d4f03734c6a327bea7a249ed0700b80328536a4d48596f6992bff9d543
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xFCA8C533b193C652774B74031E4F30a7517607ff
+   > block number:        32017302
+   > block timestamp:     1713511026
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             1.0253566487545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 32017303)
+   > confirmation number: 5 (block: 32017306)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0xe5082ce0b9d6dee8b533a8cc39f958fabe61ee8a940bbb945e7dec609bf2ec56
+   > Blocks: 0            Seconds: 0
+   > contract address:    0x5D1450ce449CE39339b3C571224D81bbcFe3a99B
+   > block number:        32017308
+   > block timestamp:     1713511040
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             0.9492865612545
+   > gas used:            2766185 (0x2a3569)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0760700875 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 32017310)
+   > confirmation number: 3 (block: 32017311)
+   > confirmation number: 6 (block: 32017314)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:        0.1565192475 ETH
