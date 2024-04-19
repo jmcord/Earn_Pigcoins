@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import smart_contract_abi from '../abis/ChemiCoin.json';
+import smart_contract_abi from '../abis/PigCoin.json';
 import Web3 from 'web3';
 import Swal from 'sweetalert2';
 

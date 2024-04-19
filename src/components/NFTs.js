@@ -62,10 +62,29 @@ function NFTs() {
         console.error('No se ha seleccionado ninguna imagen para mintear o el contrato no está disponible.');
         return;
       }
+
+      let selectedURI;
+      switch (selectedImageId) {
+        case 1:
+          selectedURI = 'ipfs://QmdejgsQykFZcSXp7TMbYDLrbPZdJtf1fucBaxgNJVQYrh';
+          break;
+        case 2:
+          selectedURI = 'ipfs://QmUVck2eNvbUgJiiz6JAvQvhhxW7Xzg2RnLmCVPAnLbo4r';
+          break;
+        case 3:
+          selectedURI = 'ipfs://QmbM1GspEvRLEWycVD18Dik6mAPPAjdZhYTS5Z3CTMMGpB';
+          break;
+        case 4:
+          selectedURI = 'ipfs://QmY8133mmuzxZEHo7KjSBdoMBDvfpj4xHUjBnc3nZ4ZRLh';
+          break;
+        default:
+          console.error('ID de imagen seleccionada no válido.');
+          return;
+      }
       
-      // Mintear el NFT llamando al método mintNFT del contrato con el selectedImageId y la URI de la imagen
+      // Mintear el NFT llamando al método mintNFT del contrato con la URI correspondiente
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmY8133mmuzxZEHo7KjSBdoMBDvfpj4xHUjBnc3nZ4ZRLh`).send({ from: accounts[0] });
+      const result = await contract.methods.mintNFT(accounts[0], selectedURI).send({ from: accounts[0] });
       setTransactionHash(result.transactionHash);
     } catch (error) {
       console.error(error);
