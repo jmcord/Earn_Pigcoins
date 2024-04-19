@@ -5,6 +5,8 @@ import Navigation from './Navbar';
 import MyCarousel from './Carousel';
 import NFT1 from '../img/NFT1.png';
 import NFT2 from '../img/NFT2.png';
+import NFT3 from '../img/NFT3.png';
+import NFT4 from '../img/NFT4.png';
 
 function NFTs() {
   const [account, setAccount] = useState('');
@@ -35,7 +37,7 @@ function NFTs() {
           
           // Obtener las URIs de los tokens
           const tokenURIs = {};
-          for (let i = 0; i < 2; i++) { // Suponiendo que tienes dos NFTs
+          for (let i = 0; i < 4; i++) { // Suponiendo que tienes cuatro NFTs
             const tokenId = i + 1; // Comenzando desde el token ID 1
             const uri = await contractInstance.methods.tokenURI(tokenId).call();
             tokenURIs[tokenId] = uri;
@@ -63,7 +65,7 @@ function NFTs() {
       
       // Mintear el NFT llamando al método mintNFT del contrato con el selectedImageId y la URI de la imagen
       const accounts = await web3.eth.getAccounts();
-      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmUVck2eNvbUgJiiz6JAvQvhhxW7Xzg2RnLmCVPAnLbo4r`).send({ from: accounts[0] });
+      const result = await contract.methods.mintNFT(accounts[0], `ipfs://QmY8133mmuzxZEHo7KjSBdoMBDvfpj4xHUjBnc3nZ4ZRLh`).send({ from: accounts[0] });
       setTransactionHash(result.transactionHash);
     } catch (error) {
       console.error(error);
@@ -98,6 +100,14 @@ function NFTs() {
         <div>
           <img src={NFT2} alt="NFT2" style={{ width: '200px', height: '200px' }} onClick={() => setSelectedImageId(2)} />
           <button onClick={handleMintSubmit}>Mintear NFT 2</button>
+        </div>
+        <div>
+          <img src={NFT3} alt="NFT3" style={{ width: '200px', height: '200px' }} onClick={() => setSelectedImageId(3)} />
+          <button onClick={handleMintSubmit}>Mintear NFT 3</button>
+        </div>
+        <div>
+          <img src={NFT4} alt="NFT4" style={{ width: '200px', height: '200px' }} onClick={() => setSelectedImageId(4)} />
+          <button onClick={handleMintSubmit}>Mintear NFT 4</button>
         </div>
       </div>
       <div>
