@@ -1,0 +1,41 @@
+.slot-machine {
+    text-align: center;
+    margin-top: 500px;
+}
+
+#reels {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.reel {
+    width: 100px;
+    height: 150px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
+
+.reel img {
+    width: 100%;
+    height: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spin 2s linear infinite;
+}
+
+/* Animaciones */
+@keyframes spin {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-300px); /* Ajusta según el tamaño de tus imágenes y la cantidad de símbolos */
+    }
+}
