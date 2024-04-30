@@ -5,6 +5,7 @@ import Home from './Home';
 import Footer from './Footer';
 import NFTs from './NFTs';
 import Loteria from './Loteria';
+import SlotMachine from './Slot';
 
 class App extends Component {
     
@@ -17,6 +18,7 @@ class App extends Component {
                             <Route path="/" element={<Home />} />
                             <Route exact path="/nfts" element={<NFTs />} />
                             <Route exact path="/loteria" element={<Loteria />} />
+                            <Route exact path="/slot" element={<SlotMachine />} />
                         </Routes>
                     </div>
                     <Footer />

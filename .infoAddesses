@@ -422,3 +422,106 @@ Summary
 =======
 > Total deployments:   3
 > Final cost:          0.2468856225 ETH
+
+
+
+
+Starting migrations...
+======================
+> Network name:    'avax'
+> Network id:      43113
+> Block gas limit: 15000000 (0xe4e1c0)
+
+
+1_initial_migrations.js
+=======================
+
+   Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0xd9e278770b381448f69b28d8c3f9d7b4e034a2077888dba09c5cf379539e52a3
+   > Blocks: 1            Seconds: 4
+   > contract address:    0xdcc8898BD432B9b44b58df79245FC4c6fc94A7E5
+   > block number:        32412408
+   > block timestamp:     1714488252
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             3.8363925487545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 3 (block: 32412410)
+   > confirmation number: 4 (block: 32412411)
+   > confirmation number: 5 (block: 32412412)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0x804979a2f03aa8cc45be4eb859e9faf691f56acff6a5660569da9fd1c816775b
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xAa5c836b5a418Bf02d310E0B3F953f043bb2cd17
+   > block number:        32412416
+   > block timestamp:     1714488270
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             3.7603224612545
+   > gas used:            2766185 (0x2a3569)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0760700875 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 3 (block: 32412419)
+   > confirmation number: 4 (block: 32412420)
+   > confirmation number: 7 (block: 32412423)
+
+   Replacing 'Loteria'
+   -------------------
+   > transaction hash:    0x4f6b1893eac5bc0fbda81c6abb2c536b71688776a2bae5149cefbf1f4908b747
+   > Blocks: 2            Seconds: 4
+   > contract address:    0x2E1c1991710eF2f7429b868Dd6903f1dc66bda15
+   > block number:        32412425
+   > block timestamp:     1714488293
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             3.6699560862545
+   > gas used:            3286050 (0x322422)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.090366375 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 32412426)
+   > confirmation number: 5 (block: 32412429)
+
+   Deploying 'SlotMachine'
+   -----------------------
+   > transaction hash:    0x62c7a5f9a807e4d285d828470391ccba81c40731fae3ce8595caf24d2ea58a7e
+   > Blocks: 3            Seconds: 4
+   > contract address:    0x6a747F24D170A53023c493656CAfFCa1abfC31aA
+   > block number:        32412432
+   > block timestamp:     1714488310
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             3.6637190312545
+   > gas used:            226802 (0x375f2)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.006237055 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 32412434)
+   > confirmation number: 5 (block: 32412437)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:        0.2531226775 ETH
+
+Summary
+=======
+> Total deployments:   4
+> Final cost:          0.2531226775 ETH
