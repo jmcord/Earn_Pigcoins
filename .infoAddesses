@@ -340,3 +340,85 @@ avax
    > Saving artifacts
    -------------------------------------
    > Total cost:        0.1565192475 ETH
+
+
+   ======================
+> Network name:    'avax'
+> Network id:      43113
+> Block gas limit: 15000000 (0xe4e1c0)
+
+
+1_initial_migrations.js
+=======================
+
+   Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x4ffc7a7441ee4d18592df01be162bd676e67eb729188c3a97f54a0cfaa472e32
+   > Blocks: 3            Seconds: 4
+   > contract address:    0x34E23667F625770df2CDdE73A42645AF5d1a8c1E
+   > block number:        32405942
+   > block timestamp:     1714473094
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             4.8393331187545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32405943)
+   > confirmation number: 3 (block: 32405945)
+   > confirmation number: 5 (block: 32405947)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0xba091862a4a9b61844a02fc208a7f33e131d1975ee8ef6c3c2fcdbfbb1802475
+   > Blocks: 3            Seconds: 4
+   > contract address:    0x68908657D75335cb391eb226E929311887cBD7b0
+   > block number:        32405952
+   > block timestamp:     1714473114
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             4.7632630312545
+   > gas used:            2766185 (0x2a3569)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0760700875 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32405953)
+   > confirmation number: 2 (block: 32405954)
+   > confirmation number: 4 (block: 32405956)
+   > confirmation number: 8 (block: 32405960)
+
+   Deploying 'Loteria'
+   -------------------
+   > transaction hash:    0x6e812803232fa83987d68cdc356429d6d6d0c4c59ede5d5d04b29800f6de5602
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x6F4E1487C24ac329bBdC755eb40B12Bd1Ab96147
+   > block number:        32405963
+   > block timestamp:     1714473138
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             4.6728966562545
+   > gas used:            3286050 (0x322422)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.090366375 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32405964)
+   > confirmation number: 4 (block: 32405967)
+   > confirmation number: 6 (block: 32405969)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:        0.2468856225 ETH
+
+Summary
+=======
+> Total deployments:   3
+> Final cost:          0.2468856225 ETH

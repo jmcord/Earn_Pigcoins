@@ -13,6 +13,8 @@ const Navigation = ({ account }) => {
                 <Navbar.Collapse id="navbar navbar-dark bg-primary">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/nfts">NFTs</Nav.Link>
+                        <Nav.Link as={Link} to="/loteria">Loteria</Nav.Link> {/* Agregar enlace a Loteria */}
                     </Nav>
                     <Nav>
                         <Nav.Link
@@ -24,8 +26,6 @@ const Navigation = ({ account }) => {
                                 {account.slice(0, 10) + '...' + account.slice(32, 42)}
                             </Button>
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/nfts">NFTs</Nav.Link>
-
                     </Nav>
                 </Navbar.Collapse>
             </Container>
