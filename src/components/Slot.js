@@ -159,5 +159,4 @@ class SlotMachine extends Component {
     );
   }
 }  
-
 export default SlotMachine;
