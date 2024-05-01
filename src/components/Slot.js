@@ -70,30 +70,31 @@ class SlotMachine extends Component {
 
   spinReels = async () => {
     if (this.state.spinning) return;
-
+  
     try {
       this.setState({ spinning: true });
-
-      const spinDuration = 3000;
-      const spinInterval = 100;
-      const spins = spinDuration / spinInterval;
-
+  
+      const spinDuration = 3000; // Duración total del giro
+      const spinInterval = 100; // Intervalo de tiempo entre cada spin
+      const reels = this.state.reels;
       const newReelPositions = [...this.state.reelPositions];
-
-      let currentSpin = 0;
-      const spinTimer = setInterval(() => {
-        newReelPositions[0] = (newReelPositions[0] + 1) % this.state.reels[0].length;
-        newReelPositions[1] = (newReelPositions[1] + 1) % this.state.reels[1].length;
-        newReelPositions[2] = (newReelPositions[2] + 1) % this.state.reels[2].length;
-
-        this.setState({ reelPositions: newReelPositions });
-        currentSpin++;
-        if (currentSpin >= spins) {
-          clearInterval(spinTimer);
-          this.setState({ spinning: false });
-          this.showSpinResult();
-        }
-      }, spinInterval);
+  
+      const spinTimers = reels.map((reel, index) => {
+        const spins = Math.floor(Math.random() * 10) + 1; // Número aleatorio de spins entre 1 y 10
+        let currentSpin = 0;
+        return setInterval(() => {
+          newReelPositions[index] = (newReelPositions[index] + 1) % reel.length;
+          this.setState({ reelPositions: newReelPositions });
+          currentSpin++;
+          if (currentSpin >= spins * (spinDuration / (spins * spinInterval))) { // Detener el giro después de un número aleatorio de spins
+            clearInterval(spinTimers[index]);
+            if (index === reels.length - 1) {
+              this.setState({ spinning: false });
+              this.showSpinResult();
+            }
+          }
+        }, spinInterval);
+      });
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -104,7 +105,7 @@ class SlotMachine extends Component {
       this.setState({ spinning: false });
     }
   }
-
+  
   showSpinResult = () => {
     const spinResult = this.state.reels.map((reel, index) => reel[this.state.reelPositions[index]]);
     const winnings = this.calculateWinnings(spinResult);
@@ -115,16 +116,21 @@ class SlotMachine extends Component {
     let winnings = 0;
     const symbolCounts = {};
     spinResult.forEach(symbol => {
-        symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
+      symbolCounts[symbol] = (symbolCounts[symbol] || 0) + 1;
     });
+    console.log('Symbol counts:', symbolCounts);
     for (const symbol in symbolCounts) {
-        const count = symbolCounts[symbol];
-        if (payouts[symbol] && payouts[symbol][count]) {
-            winnings += payouts[symbol][count];
-        }
+      const count = symbolCounts[symbol];
+      console.log('Symbol:', symbol, 'Count:', count);
+      if (payouts[symbol] && payouts[symbol][count]) {
+        console.log('Payout:', payouts[symbol][count]);
+        winnings += payouts[symbol][count];
+      }
     }
+    console.log('Total winnings:', winnings);
     return winnings;
   }
+  
 
   render() {
     const { spinning, result, winnings } = this.state;
