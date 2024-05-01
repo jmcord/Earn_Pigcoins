@@ -28,9 +28,9 @@ class SlotMachine extends Component {
     result: '',
     winnings: 0,
     reels: [
-      [reel1_1, reel1_2],
-      [reel2_1, reel2_2],
-      [reel3_1, reel3_2]
+      [reel1_1, reel1_2, reel2_1], // Primer rodillo con reel1_1 y reel1_2
+      [reel2_1, reel2_2,reel3_1], // Segundo rodillo con reel2_1 y reel2_2
+      [reel3_1, reel3_2,reel2_2]  // Tercer rodillo con reel3_1 y reel3_2
     ],
     reelPositions: [0, 0, 0]
   };
