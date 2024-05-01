@@ -109,8 +109,9 @@ class SlotMachine extends Component {
   showSpinResult = () => {
     const spinResult = this.state.reels.map((reel, index) => reel[this.state.reelPositions[index]]);
     const winnings = this.calculateWinnings(spinResult);
-    this.setState({ result: spinResult.join(' - '), winnings });
+    this.setState({ result: spinResult.join(' - '), winnings }); // Update the winnings state
   }
+  
 
   calculateWinnings = (spinResult) => {
     let winnings = 0;
@@ -125,11 +126,20 @@ class SlotMachine extends Component {
       if (payouts[symbol] && payouts[symbol][count]) {
         console.log('Payout:', payouts[symbol][count]);
         winnings += payouts[symbol][count];
+      } else if (count > 2) {
+        // Si el recuento es mayor que 2, solo se cuenta como 2
+        const maxPayoutCount = 2;
+        if (payouts[symbol] && payouts[symbol][maxPayoutCount]) {
+          console.log('Payout:', payouts[symbol][maxPayoutCount]);
+          winnings += payouts[symbol][maxPayoutCount];
+        }
       }
     }
     console.log('Total winnings:', winnings);
     return winnings;
   }
+  
+  
   
 
   render() {
