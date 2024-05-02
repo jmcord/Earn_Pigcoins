@@ -38,4 +38,15 @@ contract trazabilidad {
         require(_idAnimal <= totalAnimales, "El ID del animal no existe");
         return animales[_idAnimal].historialPropietarios;
     }
+    
+    function obtenerAnimal(uint256 _idAnimal) public view returns (string memory, string memory, string memory, address) {
+    require(animales[_idAnimal].id == _idAnimal, "Animal no registrado");
+    return (
+        animales[_idAnimal].nombre,
+        animales[_idAnimal].raza,
+        animales[_idAnimal].fechaNacimiento,
+        animales[_idAnimal].propietarioActual
+    );
+}
+
 }
