@@ -8,13 +8,14 @@ class TrazabilidadGanaderia extends Component {
     totalAnimales: 0,
     animales: {},
     loading: true,
+    idAnimal: '', // Añade el campo para el ID del animal
     nombreAnimal: '',
     razaAnimal: '',
     fechaNacimientoAnimal: '',
     idAnimalTransferir: '',
     nuevoPropietario: '',
-    contract: null, // Añade el estado para almacenar la referencia al contrato
-    account: '' // Añade el estado para almacenar la cuenta del usuario
+    contract: null,
+    account: ''
   };
 
   async componentDidMount() {
@@ -36,23 +37,36 @@ class TrazabilidadGanaderia extends Component {
   async loadBlockchainData() {
     const web3 = window.web3;
     const accounts = await web3.eth.getAccounts();
-    this.setState({ account: accounts[0] }); // Guarda la cuenta del usuario en el estado
+    this.setState({ account: accounts[0] });
 
-    // Cargar datos del contrato desde la blockchain
     const networkId = await web3.eth.net.getId();
     const deployedNetwork = trazabilidad.networks[networkId];
     const contractInstance = new web3.eth.Contract(
       trazabilidad.abi,
       deployedNetwork && deployedNetwork.address,
     );
-    this.setState({ contract: contractInstance }); // Guarda la instancia del contrato en el estado
+    this.setState({ contract: contractInstance });
+
+    // Obtener el total de animales
+    const totalAnimales = await contractInstance.methods.totalAnimales().call();
+    this.setState({ totalAnimales: parseInt(totalAnimales) });
+
+    // Cargar datos de animales
+    for (let i = 1; i <= totalAnimales; i++) {
+      const animal = await contractInstance.methods.animales(i).call();
+      this.setState({
+        animales: { ...this.state.animales, [i]: animal }
+      });
+    }
+
+    this.setState({ loading: false });
   }
 
   // Método para registrar un nuevo animal
   registrarAnimal = async () => {
-    const { nombreAnimal, razaAnimal, fechaNacimientoAnimal, contract, account } = this.state;
+    const { idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal, contract, account } = this.state;
     try {
-      await contract.methods.registrarAnimal(nombreAnimal, razaAnimal, fechaNacimientoAnimal).send({ from: account });
+      await contract.methods.registrarAnimal(idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal).send({ from: account });
       // Actualizar el estado o recargar los datos después de registrar el animal
     } catch (error) {
       console.error(error);
@@ -81,9 +95,17 @@ class TrazabilidadGanaderia extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <div>
         <h2>Registrar Nuevo Animal</h2>
+        <div>
+          <label>ID del Animal:</label>
+          <input type="text" value={this.state.idAnimal} onChange={(e) => this.setState({ idAnimal: e.target.value })} />
+        </div>
         <div>
           <label>Nombre:</label>
           <input type="text" value={this.state.nombreAnimal} onChange={(e) => this.setState({ nombreAnimal: e.target.value })} />
@@ -100,7 +122,7 @@ class TrazabilidadGanaderia extends Component {
 
         <h2>Transferir Propiedad de Animal</h2>
         <div>
-          <label>ID del Animal:</label>
+          <label>ID del Animal a Transferir:</label>
           <input type="text" value={this.state.idAnimalTransferir} onChange={(e) => this.setState({ idAnimalTransferir: e.target.value })} />
         </div>
         <div>
