@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import Swal from 'sweetalert2';
+import trazabilidad from '../abis/trazabilidad.json'; // Asegúrate de importar el ABI correcto
 
 class TrazabilidadGanaderia extends Component {
   state = {
     totalAnimales: 0,
     animales: {},
-    loading: true
+    loading: true,
+    nombreAnimal: '',
+    razaAnimal: '',
+    fechaNacimientoAnimal: '',
+    idAnimalTransferir: '',
+    nuevoPropietario: '',
+    contract: null, // Añade el estado para almacenar la referencia al contrato
+    account: '' // Añade el estado para almacenar la cuenta del usuario
   };
 
   async componentDidMount() {
@@ -27,68 +35,79 @@ class TrazabilidadGanaderia extends Component {
 
   async loadBlockchainData() {
     const web3 = window.web3;
-    // Aquí deberías cargar los datos del contrato desde la blockchain
-    // Por ejemplo, puedes cargar el número total de animales y la información de cada animal
-    // Esto requerirá interacciones con el contrato inteligente TrazabilidadGanaderia
-    // Una vez que tengas los datos, actualiza el estado del componente
-    // Ejemplo: this.setState({ totalAnimales: totalAnimales, animales: animales });
+    const accounts = await web3.eth.getAccounts();
+    this.setState({ account: accounts[0] }); // Guarda la cuenta del usuario en el estado
+
+    // Cargar datos del contrato desde la blockchain
+    const networkId = await web3.eth.net.getId();
+    const deployedNetwork = trazabilidad.networks[networkId];
+    const contractInstance = new web3.eth.Contract(
+      trazabilidad.abi,
+      deployedNetwork && deployedNetwork.address,
+    );
+    this.setState({ contract: contractInstance }); // Guarda la instancia del contrato en el estado
   }
 
-  // Función para registrar un nuevo animal
-  registrarAnimal = async (nombre, raza, fechaNacimiento) => {
+  // Método para registrar un nuevo animal
+  registrarAnimal = async () => {
+    const { nombreAnimal, razaAnimal, fechaNacimientoAnimal, contract, account } = this.state;
     try {
-      const web3 = window.web3;
-      const accounts = await web3.eth.getAccounts();
-      // Aquí deberías interactuar con el contrato inteligente para registrar un nuevo animal
-      // Por ejemplo, llamar a la función registrarAnimal del contrato
-      // Esto requerirá enviar una transacción desde la cuenta del usuario
-      // Después de registrar el animal, actualiza el estado del componente
-      // Ejemplo: this.setState(prevState => ({ totalAnimales: prevState.totalAnimales + 1 }));
-      Swal.fire({
-        icon: 'success',
-        title: 'Animal registrado',
-        text: 'Se ha registrado un nuevo animal en la blockchain.',
-      });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al registrar el animal',
-        text: err.message,
-      });
+      await contract.methods.registrarAnimal(nombreAnimal, razaAnimal, fechaNacimientoAnimal).send({ from: account });
+      // Actualizar el estado o recargar los datos después de registrar el animal
+    } catch (error) {
+      console.error(error);
+      // Manejar el error aquí
     }
-  }
+  };
 
-  // Función para transferir la propiedad de un animal
-  transferirPropiedad = async (idAnimal, nuevoPropietario) => {
-    try {
-      const web3 = window.web3;
-      const accounts = await web3.eth.getAccounts();
-      // Aquí deberías interactuar con el contrato inteligente para transferir la propiedad del animal
-      // Por ejemplo, llamar a la función transferirPropiedad del contrato
-      // Esto requerirá enviar una transacción desde la cuenta del usuario
-      // Después de transferir la propiedad, actualiza el estado del componente
-      // Ejemplo: console.log('Propiedad transferida exitosamente.');
+  // Método para transferir la propiedad de un animal
+  transferirPropiedad = async () => {
+    const { idAnimalTransferir, nuevoPropietario, contract } = this.state;
+    if (!idAnimalTransferir || !nuevoPropietario) {
       Swal.fire({
-        icon: 'success',
-        title: 'Propiedad transferida',
-        text: 'La propiedad del animal ha sido transferida correctamente.',
+        icon: 'warning',
+        title: 'Campos vacíos',
+        text: 'Por favor, completa todos los campos para transferir la propiedad del animal.',
       });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al transferir la propiedad',
-        text: err.message,
-      });
+      return;
     }
-  }
+    try {
+      await contract.methods.transferirPropiedad(idAnimalTransferir, nuevoPropietario).send({ from: this.state.account });
+      // Actualizar el estado o recargar los datos después de transferir la propiedad
+    } catch (error) {
+      console.error(error);
+      // Manejar el error aquí
+    }
+  };
 
   render() {
     return (
       <div>
-        {/* Aquí puedes agregar tu interfaz de usuario para interactuar con el contrato */}
-        {/* Por ejemplo, formularios para registrar un nuevo animal o transferir la propiedad */}
+        <h2>Registrar Nuevo Animal</h2>
+        <div>
+          <label>Nombre:</label>
+          <input type="text" value={this.state.nombreAnimal} onChange={(e) => this.setState({ nombreAnimal: e.target.value })} />
+        </div>
+        <div>
+          <label>Raza:</label>
+          <input type="text" value={this.state.razaAnimal} onChange={(e) => this.setState({ razaAnimal: e.target.value })} />
+        </div>
+        <div>
+          <label>Fecha de Nacimiento:</label>
+          <input type="text" value={this.state.fechaNacimientoAnimal} onChange={(e) => this.setState({ fechaNacimientoAnimal: e.target.value })} />
+        </div>
+        <button onClick={this.registrarAnimal}>Registrar Animal</button>
+
+        <h2>Transferir Propiedad de Animal</h2>
+        <div>
+          <label>ID del Animal:</label>
+          <input type="text" value={this.state.idAnimalTransferir} onChange={(e) => this.setState({ idAnimalTransferir: e.target.value })} />
+        </div>
+        <div>
+          <label>Nuevo Propietario:</label>
+          <input type="text" value={this.state.nuevoPropietario} onChange={(e) => this.setState({ nuevoPropietario: e.target.value })} />
+        </div>
+        <button onClick={this.transferirPropiedad}>Transferir Propiedad</button>
       </div>
     );
   }

@@ -20,9 +20,9 @@ contract trazabilidad {
     event TransferenciaPropiedad(uint indexed idAnimal, address indexed propietarioAnterior, address indexed nuevoPropietario);
 
     // Función para registrar un nuevo animal
-    function registrarAnimal(string memory _nombre, string memory _raza, string memory _fechaNacimiento) public {
+    function registrarAnimal(uint256 _identifier, string memory _nombre, string memory _raza, string memory _fechaNacimiento) public {
         totalAnimales++;
-        animales[totalAnimales] = Animal(totalAnimales, _nombre, _raza, _fechaNacimiento, msg.sender, new address[](0));
+        animales[totalAnimales] = Animal(_identifier, _nombre, _raza, _fechaNacimiento, msg.sender, new address[](0));
     }
 
     // Función para transferir la propiedad de un animal
