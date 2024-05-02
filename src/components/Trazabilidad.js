@@ -1,75 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import Web3 from 'web3';
 import Swal from 'sweetalert2';
 import trazabilidad from '../abis/trazabilidad.json';
 
-function TrazabilidadGanaderia() {
-  const [totalAnimales, setTotalAnimales] = useState(0);
-  const [animales, setAnimales] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [idAnimal, setIdAnimal] = useState('');
-  const [nombreAnimal, setNombreAnimal] = useState('');
-  const [razaAnimal, setRazaAnimal] = useState('');
-  const [fechaNacimientoAnimal, setFechaNacimientoAnimal] = useState('');
-  const [idAnimalTransferir, setIdAnimalTransferir] = useState('');
-  const [nuevoPropietario, setNuevoPropietario] = useState('');
-  const [historial, setHistorial] = useState([]);
-  const [contract, setContract] = useState(null);
-  const [account, setAccount] = useState('');
+import Navigation from './Navbar';
+import MyCarousel from './Carousel';
 
-  useEffect(() => {
-    async function loadBlockchainData() {
-      // Cargar Web3
-      if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-      } else if (window.web3) {
-        window.web3 = new Web3(window.web3.currentProvider);
-      } else {
-        window.alert('¡Deberías considerar usar Metamask!');
-      }
+class TrazabilidadGanaderia extends Component {
+  state = {
+    totalAnimales: 0,
+    animales: {},
+    loading: true,
+    idAnimal: '',
+    nombreAnimal: '',
+    razaAnimal: '',
+    fechaNacimientoAnimal: '',
+    idAnimalTransferir: '',
+    nuevoPropietario: '',
+    historial: [],
+    contract: null,
+    account: '',
+  };
 
-      const web3 = window.web3;
-      const accounts = await web3.eth.getAccounts();
-      setAccount(accounts[0]);
+  async componentDidMount() {
+    await this.loadBlockchainData();
+  }
 
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = trazabilidad.networks[networkId];
-      const contractInstance = new web3.eth.Contract(
-        trazabilidad.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-      setContract(contractInstance);
-
-      // Obtener el total de animales
-      const totalAnimales = await contractInstance.methods.totalAnimales().call();
-      setTotalAnimales(parseInt(totalAnimales));
-
-      // Cargar datos de animales
-      const animalesData = {};
-      for (let i = 1; i <= totalAnimales; i++) {
-        const animal = await contractInstance.methods.animales(i).call();
-        animalesData[i] = animal;
-      }
-      setAnimales(animalesData);
-
-      setLoading(false);
+  async loadBlockchainData() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert('¡Deberías considerar usar Metamask!');
     }
 
-    loadBlockchainData();
-  }, []);
+    const web3 = window.web3;
+    const accounts = await web3.eth.getAccounts();
+    this.setState({ account: accounts[0] });
 
-  async function registrarAnimal() {
+    const networkId = await web3.eth.net.getId();
+    const deployedNetwork = trazabilidad.networks[networkId];
+    const contractInstance = new web3.eth.Contract(trazabilidad.abi, deployedNetwork && deployedNetwork.address);
+    this.setState({ contract: contractInstance });
+
+    const totalAnimales = await contractInstance.methods.totalAnimales().call();
+    this.setState({ totalAnimales: parseInt(totalAnimales) });
+
+    const animalesData = {};
+    for (let i = 1; i <= totalAnimales; i++) {
+      const animal = await contractInstance.methods.animales(i).call();
+      animalesData[i] = animal;
+    }
+    this.setState({ animales: animalesData, loading: false });
+  }
+
+  async registrarAnimal() {
+    const { contract, idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal, account } = this.state;
     try {
       await contract.methods.registrarAnimal(idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal).send({ from: account });
-      // Actualizar el estado o recargar los datos después de registrar el animal
     } catch (error) {
       console.error(error);
-      // Manejar el error aquí
     }
   }
 
-  async function transferirPropiedad() {
+  async transferirPropiedad() {
+    const { idAnimalTransferir, nuevoPropietario, account, contract } = this.state;
     if (!idAnimalTransferir || !nuevoPropietario) {
       Swal.fire({
         icon: 'warning',
@@ -80,65 +77,70 @@ function TrazabilidadGanaderia() {
     }
     try {
       await contract.methods.transferirPropiedad(idAnimalTransferir, nuevoPropietario).send({ from: account });
-      // Actualizar el estado o recargar los datos después de transferir la propiedad
     } catch (error) {
       console.error(error);
-      // Manejar el error aquí
     }
   }
 
-  async function obtenerHistorial() {
+  async obtenerHistorial() {
+    const { idAnimal, contract } = this.state;
     try {
       const historial = await contract.methods.obtenerHistorial(idAnimal).call();
-      setHistorial(historial);
+      this.setState({ historial });
     } catch (error) {
       console.error(error);
-      // Manejar el error aquí
     }
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  render() {
+    const { loading, idAnimal, idAnimalTransferir, nuevoPropietario, historial } = this.state;
+    if (loading) {
+      return <div>Loading...</div>;
+    }
 
-  return (
-    <div>
-      <h2>Registrar Nuevo Animal</h2>
+    return (
       <div>
-        <label>ID del Animal:</label>
-        <input type="text" value={idAnimal} onChange={(e) => setIdAnimal(e.target.value)} />
-      </div>
-      <button onClick={registrarAnimal}>Registrar Animal</button>
-
-      <h2>Transferir Propiedad de Animal</h2>
-      <div>
-        <label>ID del Animal a Transferir:</label>
-        <input type="text" value={idAnimalTransferir} onChange={(e) => setIdAnimalTransferir(e.target.value)} />
-      </div>
-      <div>
-        <label>Nuevo Propietario:</label>
-        <input type="text" value={nuevoPropietario} onChange={(e) => setNuevoPropietario(e.target.value)} />
-      </div>
-      <button onClick={transferirPropiedad}>Transferir Propiedad</button>
-
-      <h2>Obtener Historial de un Animal</h2>
-      <div>
-        <label>ID del Animal:</label>
-        <input type="text" value={idAnimal} onChange={(e) => setIdAnimal(e.target.value)} />
-        <button onClick={obtenerHistorial}>Obtener Historial</button>
-      </div>
-      {historial.length > 0 && (
+        <Navigation account={this.state.account} />
+        <MyCarousel />
         <div>
-          <h3>Historial del Animal</h3>
-          <ul>
-            {historial.map((propietario, index) => (
-              <li key={index}>{propietario}</li>
-            ))}
-          </ul>
+          <h2>Registrar Nuevo Animal</h2>
+          <div>
+            <label>ID del Animal:</label>
+            <input type="text" value={idAnimal} onChange={(e) => this.setState({ idAnimal: e.target.value })} />
+          </div>
+          <button onClick={() => this.registrarAnimal()}>Registrar Animal</button>
+
+          <h2>Transferir Propiedad de Animal</h2>
+          <div>
+            <label>ID del Animal a Transferir:</label>
+            <input type="text" value={idAnimalTransferir} onChange={(e) => this.setState({ idAnimalTransferir: e.target.value })} />
+          </div>
+          <div>
+            <label>Nuevo Propietario:</label>
+            <input type="text" value={nuevoPropietario} onChange={(e) => this.setState({ nuevoPropietario: e.target.value })} />
+          </div>
+          <button onClick={() => this.transferirPropiedad()}>Transferir Propiedad</button>
+
+          <h2>Obtener Historial de un Animal</h2>
+          <div>
+            <label>ID del Animal:</label>
+            <input type="text" value={idAnimal} onChange={(e) => this.setState({ idAnimal: e.target.value })} />
+            <button onClick={() => this.obtenerHistorial()}>Obtener Historial</button>
+          </div>
+          {historial.length > 0 && (
+            <div>
+              <h3>Historial del Animal</h3>
+              <ul>
+                {historial.map((propietario, index) => (
+                  <li key={index}>{propietario}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default TrazabilidadGanaderia;
