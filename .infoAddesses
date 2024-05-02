@@ -868,3 +868,119 @@ Summary
 =======
 > Total deployments:   5
 > Final cost:          0.27816987 ETH
+
+
+1_initial_migrations.js
+=======================
+
+   Replacing 'PigCoin'
+   -------------------
+   > transaction hash:    0x96d5c584db48cdfc6834cedcfd364ebeef507347cced38f5838d6644b6a5ad6b
+   > Blocks: 4            Seconds: 4
+   > contract address:    0x357CB8b46D4F8B5CbEf6Fa7005C62f634BBA0F2A
+   > block number:        32493755
+   > block timestamp:     1714665407
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.6736573487545
+   > gas used:            2925424 (0x2ca370)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.08044916 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 32493757)
+   > confirmation number: 4 (block: 32493759)
+   > confirmation number: 7 (block: 32493762)
+
+   Replacing 'MyNFT'
+   -----------------
+   > transaction hash:    0x35b255a290549934118d7776cf4e3e72149d39754d866e1a3b8d5ea55de27de6
+   > Blocks: 3            Seconds: 4
+   > contract address:    0xCbA8dcA77E2C83A6FFea6b59691B67E2238503FF
+   > block number:        32493765
+   > block timestamp:     1714665426
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.5975872612545
+   > gas used:            2766185 (0x2a3569)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.0760700875 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32493766)
+   > confirmation number: 4 (block: 32493769)
+   > confirmation number: 7 (block: 32493772)
+
+   Replacing 'Loteria'
+   -------------------
+   > transaction hash:    0x9792401df228cdade6be42ad263df4844249f01d11002691ffa95463281e8f2f
+   > Blocks: 0            Seconds: 4
+   > contract address:    0x8b141A50f735a699a71B2F8D937dEa66f0D35297
+   > block number:        32493776
+   > block timestamp:     1714665449
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.5072208862545
+   > gas used:            3286050 (0x322422)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.090366375 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 1 (block: 32493777)
+   > confirmation number: 4 (block: 32493780)
+   > confirmation number: 7 (block: 32493783)
+
+   Replacing 'SlotMachine'
+   -----------------------
+   > transaction hash:    0x3044e66348303e357b8f72c80c6f49b362d0ab07cac3918a600a43ac9abb80f4
+   > Blocks: 3            Seconds: 4
+   > contract address:    0x42Eab9160f4713b5A67D7d33187ec0423e308046
+   > block number:        32493785
+   > block timestamp:     1714665468
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.5009838312545
+   > gas used:            226802 (0x375f2)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.006237055 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 2 (block: 32493787)
+   > confirmation number: 4 (block: 32493789)
+   > confirmation number: 5 (block: 32493790)
+
+   Replacing 'trazabilidad'
+   ------------------------
+   > transaction hash:    0x4972b0ecfcbd7e6fe6a4ce93e967abba1f06caf7dd66efc617c2519df27910f6
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xa8646eC3CE56388875Eb2a03196620CcF716913E
+   > block number:        32493795
+   > block timestamp:     1714665487
+   > account:             0xa4245BD68b73d81Eec64b4BF8C11DD5d386C8192
+   > balance:             2.4705698762545
+   > gas used:            1105962 (0x10e02a)
+   > gas price:           27.5 gwei
+   > value sent:          0 ETH
+   > total cost:          0.030413955 ETH
+
+   Pausing for 5 confirmations...
+
+   -------------------------------
+   > confirmation number: 3 (block: 32493797)
+   > confirmation number: 5 (block: 32493799)
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:        0.2835366325 ETH
+
+Summary
+=======
+> Total deployments:   5
+> Final cost:          0.2835366325 ETH
