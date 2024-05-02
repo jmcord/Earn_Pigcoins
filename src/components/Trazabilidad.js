@@ -60,8 +60,17 @@ class TrazabilidadGanaderia extends Component {
     const { contract, idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal, account } = this.state;
     try {
       await contract.methods.registrarAnimal(idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal).send({ from: account });
+      Swal.fire({
+        icon: 'success',
+        title: '¡Animal registrado correctamente!',
+      });
     } catch (error) {
       console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al registrar el animal',
+        text: error.message,
+      });
     }
   }
 
@@ -77,8 +86,17 @@ class TrazabilidadGanaderia extends Component {
     }
     try {
       await contract.methods.transferirPropiedad(idAnimalTransferir, nuevoPropietario).send({ from: account });
+      Swal.fire({
+        icon: 'success',
+        title: '¡Propiedad del animal transferida correctamente!',
+      });
     } catch (error) {
       console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al transferir la propiedad del animal',
+        text: error.message,
+      });
     }
   }
 
@@ -89,11 +107,16 @@ class TrazabilidadGanaderia extends Component {
       this.setState({ historial });
     } catch (error) {
       console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al obtener el historial del animal',
+        text: error.message,
+      });
     }
   }
 
   render() {
-    const { loading, idAnimal, idAnimalTransferir, nuevoPropietario, historial } = this.state;
+    const { loading, idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal, idAnimalTransferir, nuevoPropietario, historial } = this.state;
     if (loading) {
       return <div>Loading...</div>;
     }
@@ -107,6 +130,18 @@ class TrazabilidadGanaderia extends Component {
           <div>
             <label>ID del Animal:</label>
             <input type="text" value={idAnimal} onChange={(e) => this.setState({ idAnimal: e.target.value })} />
+          </div>
+          <div>
+            <label>Nombre del Animal:</label>
+            <input type="text" value={nombreAnimal} onChange={(e) => this.setState({ nombreAnimal: e.target.value })} />
+          </div>
+          <div>
+            <label>Raza del Animal:</label>
+            <input type="text" value={razaAnimal} onChange={(e) => this.setState({ razaAnimal: e.target.value })} />
+          </div>
+          <div>
+            <label>Fecha de Nacimiento del Animal:</label>
+            <input type="date" value={fechaNacimientoAnimal} onChange={(e) => this.setState({ fechaNacimientoAnimal: e.target.value })} />
           </div>
           <button onClick={() => this.registrarAnimal()}>Registrar Animal</button>
 
