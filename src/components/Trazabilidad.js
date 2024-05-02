@@ -12,7 +12,7 @@ class TrazabilidadGanaderia extends Component {
     nombreAnimal: '',
     razaAnimal: '',
     fechaNacimientoAnimal: '',
-    idAnimalTransferir: '',
+    idAnimalTransferir: '', // Agrega el campo para el ID del animal a transferir
     nuevoPropietario: '',
     historial: [],
     contract: null,
@@ -99,7 +99,7 @@ class TrazabilidadGanaderia extends Component {
   obtenerHistorial = async () => {
     const { idAnimal, contract } = this.state;
     try {
-      const historial = await contract.methods.getHistorial(idAnimal).call();
+      const historial = await contract.methods.obtenerHistorial(idAnimal).call();
       this.setState({ historial });
     } catch (error) {
       console.error(error);
@@ -125,7 +125,14 @@ class TrazabilidadGanaderia extends Component {
 
         <h2>Transferir Propiedad de Animal</h2>
         {/* Formulario para transferir la propiedad de un animal */}
-        {/* Resto de los campos del formulario para transferir la propiedad de un animal */}
+        <div>
+          <label>ID del Animal a Transferir:</label> {/* Campo para ingresar el ID del animal a transferir */}
+          <input type="text" value={this.state.idAnimalTransferir} onChange={(e) => this.setState({ idAnimalTransferir: e.target.value })} />
+        </div>
+        <div>
+          <label>Nuevo Propietario:</label>
+          <input type="text" value={this.state.nuevoPropietario} onChange={(e) => this.setState({ nuevoPropietario: e.target.value })} />
+        </div>
         <button onClick={this.transferirPropiedad}>Transferir Propiedad</button>
 
         {/* Botón para obtener el historial de un animal */}
