@@ -16,6 +16,7 @@ const Navigation = ({ account }) => {
                         <Nav.Link as={Link} to="/nfts">NFTs</Nav.Link>
                         <Nav.Link as={Link} to="/loteria">Loteria</Nav.Link> {/* Agregar enlace a Loteria */}
                         <Nav.Link as={Link} to="/slot">Slot</Nav.Link> {/* Agregar enlace a Loteria */}
+                        <Nav.Link as={Link} to="/trazabilidad">TrazabilidadGanaderia</Nav.Link> {/* Agregar enlace a Loteria */}
                     </Nav>
                     <Nav>
                         <Nav.Link

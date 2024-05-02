@@ -6,6 +6,7 @@ import Footer from './Footer';
 import NFTs from './NFTs';
 import Loteria from './Loteria';
 import SlotMachine from './Slot';
+import TrazabilidadGanaderia from './Trazabilidad';
 
 class App extends Component {
     
@@ -19,6 +20,7 @@ class App extends Component {
                             <Route exact path="/nfts" element={<NFTs />} />
                             <Route exact path="/loteria" element={<Loteria />} />
                             <Route exact path="/slot" element={<SlotMachine />} />
+                            <Route exact path="/trazabilidad" element={<TrazabilidadGanaderia />} />
                         </Routes>
                     </div>
                     <Footer />

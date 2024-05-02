@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-contract TrazabilidadGanaderia {
+contract trazabilidad {
     // Estructura para representar un animal
     struct Animal {
         uint id;
