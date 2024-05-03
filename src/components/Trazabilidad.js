@@ -20,6 +20,7 @@ class TrazabilidadGanaderia extends Component {
     historial: [],
     contract: null,
     account: '',
+    animalSeleccionado: null,
   };
 
   async componentDidMount() {
@@ -115,8 +116,23 @@ class TrazabilidadGanaderia extends Component {
     }
   }
 
+  async obtenerAnimal() {
+    const { idAnimal, contract } = this.state;
+    try {
+      const animal = await contract.methods.obtenerAnimal(idAnimal).call();
+      this.setState({ animalSeleccionado: animal });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al obtener los datos del animal',
+        text: error.message,
+      });
+    }
+  }
+
   render() {
-    const { loading, idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal, idAnimalTransferir, nuevoPropietario, historial } = this.state;
+    const { loading, idAnimal, nombreAnimal, razaAnimal, fechaNacimientoAnimal, idAnimalTransferir, nuevoPropietario, historial, animalSeleccionado } = this.state;
     if (loading) {
       return <div>Loading...</div>;
     }
@@ -170,6 +186,22 @@ class TrazabilidadGanaderia extends Component {
                   <li key={index}>{propietario}</li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          <h2>Obtener Datos de un Animal</h2>
+          <div>
+            <label>ID del Animal:</label>
+            <input type="text" value={idAnimal} onChange={(e) => this.setState({ idAnimal: e.target.value })} />
+            <button onClick={() => this.obtenerAnimal()}>Obtener Animal</button>
+          </div>
+          {animalSeleccionado && (
+            <div>
+              <h3>Datos del Animal</h3>
+              <p>Nombre: {animalSeleccionado[0]}</p>
+              <p>Raza: {animalSeleccionado[1]}</p>
+              <p>Fecha de Nacimiento: {animalSeleccionado[2]}</p>
+              <p>Propietario Actual: {animalSeleccionado[3]}</p>
             </div>
           )}
         </div>
